@@ -82,6 +82,32 @@ function itemHTML(p) {
   return '<a href="' + postHref(p.id) + '" class="item" data-open="' + esc(p.id) + '"><span class="th">' + media(p) + '</span><span><b>' + esc(p.title) + '</b><small>' + esc(fmtD(p.date)) + (p.sample ? ' · <span class="t-sample">Mẫu</span>' : '') + '</small>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '</span></a>';
 }
 
+// Ảnh xen đoạn văn: một dòng riêng "[ảnh 2]" chèn ảnh 2; "[ảnh 3, 4]" chèn ảnh 3 và 4 cạnh nhau.
+// Số ảnh theo thứ tự ảnh của bài (ảnh 1 là ảnh bìa). Chú thích ảnh hiện dưới ảnh.
+var MARK_LINE = /^\s*\[(?:ảnh|anh|hình|hinh)\s*([\d\s,]+)\]\s*$/i;
+function stripMarks(t) { return String(t || '').split('\n').filter(function (l) { return !MARK_LINE.test(l); }).join('\n'); }
+function renderBody(p, photos) {
+  var used = {}, html = '';
+  String(p.body || '').split(/\n\s*\n/).forEach(function (block) {
+    var buf = [];
+    function flush() { var t = buf.join('\n').trim(); if (t) html += '<p>' + esc(t).replace(/\n/g, '<br>') + '</p>'; buf = []; }
+    block.split('\n').forEach(function (line) {
+      var m = MARK_LINE.exec(line);
+      var nums = m ? m[1].split(',').map(function (x) { return parseInt(x, 10); }).filter(function (n) { return n >= 1 && n <= photos.length; }) : [];
+      if (!nums.length) { buf.push(line); return; }
+      flush();
+      var figs = nums.map(function (n) {
+        used[n - 1] = true;
+        var ph = photos[n - 1];
+        return '<figure class="inl"><button type="button" data-aphoto="' + (n - 1) + '" aria-label="Xem ảnh ' + n + '"><img src="' + blob(ph.id) + '" alt="' + esc(ph.caption || p.title) + '" loading="lazy"></button>' +
+          (ph.caption ? '<figcaption>' + esc(ph.caption) + '</figcaption>' : '') + '</figure>';
+      }).join('');
+      html += nums.length > 1 ? '<div class="inl-row" style="--n:' + Math.min(nums.length, 4) + '">' + figs + '</div>' : figs;
+    });
+    flush();
+  });
+  return { html: html, used: used };
+}
 function eviHTML(p) {
   var d = parseD(p.date), n = daysFrom(p.date);
   return '<a href="' + postHref(p.id) + '" class="evi" data-open="' + esc(p.id) + '"><span class="d"><b>' + pad(d.getDate()) + '</b><span>Th ' + (d.getMonth() + 1) + '</span></span><span><strong>' + esc(p.title) + '</strong><small>' + esc(wd(p.date)) + (p.time ? ' · ' + esc(p.time) : '') + ' · <span class="left">' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') + '</span></small></span></a>';
@@ -118,7 +144,7 @@ var Peek = (function () {
   var box = null, timer = 0, cur = null, getPost = null;
   function snippet(p) {
     if (p.excerpt) return { text: p.excerpt };
-    var t = p.body.replace(/\s+/g, ' ').trim();
+    var t = stripMarks(p.body).replace(/\s+/g, ' ').trim();
     if (!t) return null;
     // Bài càng dài càng hiện nhiều dòng (2 đến 7), dòng cuối mờ dần.
     var lines = Math.max(2, Math.min(7, Math.round(t.length / 110)));

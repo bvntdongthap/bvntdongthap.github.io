@@ -124,7 +124,7 @@
   var sec = { news: 'sec-news', honor: 'box-honor', event: 'sec-events', activity: 'sec-activity' }[p.kind];
   var on = document.querySelector('.menu a[href="index.html#' + sec + '"]'); if (on) on.classList.add('on');
   var photos = p.photos.map(function (ph) { return { id: ph.id, caption: ph.caption, post: p }; });
-  var paras = (p.body || '').split(/\n\s*\n/).map(function (x) { return x.trim(); }).filter(Boolean);
+  var rb = renderBody(p, photos), rest = photos.map(function (_, i) { return i; }).filter(function (i) { return !rb.used[i]; });
   var info = p.kind === 'event' ? '<dl class="info"><div><dt>Ngày</dt><dd>' + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</dd></div>' + (p.time ? '<div><dt>Thời gian</dt><dd>' + esc(p.time) + (p.timeEnd ? ' – ' + esc(p.timeEnd) : '') + '</dd></div>' : '') + (p.place ? '<div><dt>Địa điểm</dt><dd>' + esc(p.place) + '</dd></div>' : '') + '</dl>' : '';
   var cover = photos.length ? '<button type="button" data-aphoto="0" aria-label="Xem ảnh lớn"><img src="' + blob(photos[0].id) + '" alt="' + esc(photos[0].caption || p.title) + '"></button>' : art(p);
   $('#art').innerHTML =
@@ -132,10 +132,10 @@
     '<span class="lab k-' + p.kind + '">' + KIND[p.kind] + '</span>' + (p.sample ? ' <span class="t-sample">Mẫu</span>' : '') +
     '<h1>' + esc(p.title) + '</h1>' +
     '<div class="meta"><span>' + icon('cal') + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</span>' + (p.place ? '<span>' + icon('pin') + esc(p.place) + '</span>' : '') + (photos.length ? '<span>' + icon('img') + photos.length + ' ảnh</span>' : '') + '</div>' +
-    info + '<figure class="art-cover">' + cover + '</figure>' +
+    info + '<figure class="art-cover">' + cover + (photos.length && photos[0].caption ? '<figcaption>' + esc(photos[0].caption) + '</figcaption>' : '') + '</figure>' +
     (p.excerpt ? '<p class="lead">' + esc(p.excerpt) + '</p>' : '') +
-    (paras.length ? '<div class="prose">' + paras.map(function (x) { return '<p>' + esc(x).replace(/\n/g, '<br>') + '</p>'; }).join('') + '</div>' : '') +
-    (photos.length > 1 ? '<div class="reader-photos">' + photos.map(function (ph, i) { return '<button type="button" data-aphoto="' + i + '" aria-label="Xem ảnh ' + (i + 1) + '"><img src="' + blob(ph.id) + '" alt="' + esc(ph.caption) + '" loading="lazy"></button>'; }).join('') + '</div>' : '') +
+    (rb.html ? '<div class="prose">' + rb.html + '</div>' : '') +
+    (rest.length && photos.length > 1 ? '<div class="reader-photos">' + rest.map(function (i) { var ph = photos[i]; return '<button type="button" data-aphoto="' + i + '" aria-label="Xem ảnh ' + (i + 1) + '"><img src="' + blob(ph.id) + '" alt="' + esc(ph.caption) + '" loading="lazy"></button>'; }).join('') + '</div>' : '') +
     '<div class="art-tools"><a class="btn btn-line" href="index.html">← Về trang chủ</a><button class="btn btn-primary" type="button" id="copy-link">Sao chép liên kết bài</button></div>';
   document.addEventListener('click', function (e) { var b = e.target.closest('[data-aphoto]'); if (b) openLB(photos, +b.dataset.aphoto, p.id); });
   $('#copy-link').addEventListener('click', function () {
