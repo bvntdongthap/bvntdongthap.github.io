@@ -19,6 +19,25 @@
     "createdAt": "2026-10-27T04:31:09Z"
   },
   {
+    "id": "20261027-chuong-trinh-boss-tuyen-dung",
+    "kind": "activity",
+    "title": "Chương trình BOSS tuyển dụng",
+    "date": "2026-10-27",
+    "excerpt": "Khai giảng lớp Bảo Việt Lập Nghiệp tháng 11/2026.",
+    "body": "Khai giảng lớp Bảo Việt Lập Nghiệp tháng 11/2026. Chương trình sẽ đồng hành cùng với hai giảng viên nội bộ của công ty Bảo Việt Nhân Thọ Đồng Tháp là: Anh Trần Quang Vinh - Giám Đốc PKD3, Anh Nguyễn Minh Trí - Giám Đốc PKD1. Cùng các anh chị sẽ xây dựng một hành trình mới với phương châm \"Khởi đầu hôm nay - Vững bước tương lai\".",
+    "time": "",
+    "timeEnd": "",
+    "place": "",
+    "photos": [
+      {
+        "src": "anh/20261027-chuong-trinh-boss-tuyen-dung/01.jpg",
+        "caption": ""
+      }
+    ],
+    "featured": true,
+    "createdAt": "2026-10-27T04:50:42Z"
+  },
+  {
     "id": "20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi",
     "kind": "event",
     "title": "Bảo Việt Nhân thọ Đồng Tháp khai trương trụ sở mới",
