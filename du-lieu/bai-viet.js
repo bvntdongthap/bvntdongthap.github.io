@@ -6,7 +6,7 @@ window.BAI_VIET = [
     "title": "“30 năm vàng son – Triệu trái tim chung nhịp”",
     "date": "2026-10-31",
     "excerpt": "",
-    "body": "30 năm – một chặng đường đủ dài để một doanh nghiệp nhìn lại những gì mình đã làm được, và cũng đủ để chúng tôi hiểu rằng: thành tựu lớn nhất của Bảo Việt Nhân thọ không chỉ nằm ở những con số, mà nằm trong niềm tin đã được trao gửi và gìn giữ qua thời gian. 30 năm qua, thị trường đã nhiều lần thay đổi. Có những giai đoạn thuận lợi, cũng có những thời điểm đầy thử thách. Nhưng trong bất kỳ hoàn cảnh nào, Bảo Việt Nhân thọ vẫn kiên định với một lý tưởng: lấy khách hàng là trung tâm, lấy uy tín làm nền tảng và lấy sự đồng hành dài hạn làm cam kết. Chính sự kiên định ấy đã giúp chúng tôi vững vàng đi qua những biến động, tiếp tục duy trì vị thế dẫn đầu trên thị trường cho tới ngày hôm nay.\nChương trình có sự góp mặt của Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam.  \n Sự xuất hiện của diễn giả hứa hẹn mang đến những góc nhìn chiến lược, tư duy lãnh đạo đột phá và những bài học truyền cảm hứng mạnh mẽ về hành trình phát triển bản thân cũng như sự nghiệp bền vững.",
+    "body": "30 năm – một chặng đường đủ dài để một doanh nghiệp nhìn lại những gì mình đã làm được, và cũng đủ để chúng tôi hiểu rằng: thành tựu lớn nhất của Bảo Việt Nhân thọ không chỉ nằm ở những con số, mà nằm trong niềm tin đã được trao gửi và gìn giữ qua thời gian. 30 năm qua, thị trường đã nhiều lần thay đổi. Có những giai đoạn thuận lợi, cũng có những thời điểm đầy thử thách. Nhưng trong bất kỳ hoàn cảnh nào, Bảo Việt Nhân thọ vẫn kiên định với một lý tưởng: lấy khách hàng là trung tâm, lấy uy tín làm nền tảng và lấy sự đồng hành dài hạn làm cam kết. Chính sự kiên định ấy đã giúp chúng tôi vững vàng đi qua những biến động, tiếp tục duy trì vị thế dẫn đầu trên thị trường cho tới ngày hôm nay.\n[ảnh 2]\nChương trình có sự góp mặt của Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam.  \n Sự xuất hiện của diễn giả hứa hẹn mang đến những góc nhìn chiến lược, tư duy lãnh đạo đột phá và những bài học truyền cảm hứng mạnh mẽ về hành trình phát triển bản thân cũng như sự nghiệp bền vững.",
     "time": "",
     "timeEnd": "",
     "place": "Số 267 Ngô Thì Nhậm, phường Cao Lãnh, tỉnh Đồng Tháp.",
@@ -17,7 +17,7 @@ window.BAI_VIET = [
       },
       {
         "src": "anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/02.jpg",
-        "caption": ""
+        "caption": "Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam"
       }
     ],
     "featured": true,

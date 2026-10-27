@@ -124,7 +124,7 @@
   var sec = { news: 'sec-news', honor: 'box-honor', event: 'sec-events', activity: 'sec-activity' }[p.kind];
   var on = document.querySelector('.menu a[href="index.html#' + sec + '"]'); if (on) on.classList.add('on');
   var photos = p.photos.map(function (ph) { return { id: ph.id, caption: ph.caption, post: p }; });
-  var rb = renderBody(p, photos), rest = photos.map(function (_, i) { return i; }).filter(function (i) { return !rb.used[i]; });
+  var rb = renderBody(p, photos), rest = photos.map(function (_, i) { return i; }).filter(function (i) { return i > 0 && !rb.used[i]; }); // ảnh bìa đã hiện ở đầu bài
   var info = p.kind === 'event' ? '<dl class="info"><div><dt>Ngày</dt><dd>' + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</dd></div>' + (p.time ? '<div><dt>Thời gian</dt><dd>' + esc(p.time) + (p.timeEnd ? ' – ' + esc(p.timeEnd) : '') + '</dd></div>' : '') + (p.place ? '<div><dt>Địa điểm</dt><dd>' + esc(p.place) + '</dd></div>' : '') + '</dl>' : '';
   var cover = photos.length ? '<button type="button" data-aphoto="0" aria-label="Xem ảnh lớn"><img src="' + blob(photos[0].id) + '" alt="' + esc(photos[0].caption || p.title) + '"></button>' : art(p);
   $('#art').innerHTML =
