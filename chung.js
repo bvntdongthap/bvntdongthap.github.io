@@ -82,29 +82,59 @@ function itemHTML(p) {
   return '<a href="' + postHref(p.id) + '" class="item" data-open="' + esc(p.id) + '"><span class="th">' + media(p) + '</span><span><b>' + esc(p.title) + '</b><small>' + esc(fmtD(p.date)) + (p.sample ? ' · <span class="t-sample">Mẫu</span>' : '') + '</small>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '</span></a>';
 }
 
-// Ảnh xen đoạn văn: một dòng riêng "[ảnh 2]" chèn ảnh 2; "[ảnh 3, 4]" chèn ảnh 3 và 4 cạnh nhau.
-// Số ảnh theo thứ tự ảnh của bài (ảnh 1 là ảnh bìa). Chú thích ảnh hiện dưới ảnh.
+// Nội dung bài: các đoạn cách nhau một dòng trống. Cú pháp định dạng (thanh công cụ chèn sẵn):
+//   **đậm**  *nghiêng*  __gạch chân__  [chữ](https://…)  ## Tiêu đề mục  - danh sách  1. danh sách  > trích dẫn
+//   [giữa] / [phải] / [đều] ở đầu đoạn để căn lề; dòng riêng "[ảnh 2]" hoặc "[ảnh 3, 4]" để chèn ảnh (số theo thứ tự ảnh).
 var MARK_LINE = /^\s*\[(?:ảnh|anh|hình|hinh)\s*([\d\s,]+)\]\s*$/i;
-function stripMarks(t) { return String(t || '').split('\n').filter(function (l) { return !MARK_LINE.test(l); }).join('\n'); }
-function renderBody(p, photos) {
+var ALIGN = /^\[(giữa|phải|đều|trái)\]\s*/i;
+var ALIGN_CLS = { 'giữa': 'al-center', 'phải': 'al-right', 'đều': 'al-justify', 'trái': '' };
+// t đã được esc(): chỉ thêm thẻ định dạng, link chỉ nhận http(s).
+function inlineFmt(t) {
+  return t.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/__([^_\n]+)__/g, '<u>$1</u>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+}
+// Chữ thuần (bỏ mã ảnh và ký hiệu định dạng) cho khung xem trước khi rê chuột.
+function stripMarks(t) {
+  return String(t || '').split('\n').filter(function (l) { return !MARK_LINE.test(l); }).map(function (l) {
+    return l.replace(ALIGN, '').replace(/^\s*(#{2,3}|[-•]|\d+[.)]|>)\s*/, '')
+      .replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, '$1').replace(/\*\*|__/g, '').replace(/(^|[^*])\*([^*\n]+)\*/g, '$1$2');
+  }).join('\n');
+}
+// srcOf: lấy đường dẫn ảnh (mặc định theo mã ảnh; khung xem trước dùng ảnh chưa tải lên).
+function renderBody(p, photos, srcOf) {
+  srcOf = srcOf || function (ph) { return blob(ph.id); };
   var used = {}, html = '';
   String(p.body || '').split(/\n\s*\n/).forEach(function (block) {
-    var buf = [];
-    function flush() { var t = buf.join('\n').trim(); if (t) html += '<p>' + esc(t).replace(/\n/g, '<br>') + '</p>'; buf = []; }
+    var buf = [], cls = '', list = null, quote = [];
+    function flushP() { var t = buf.join('\n').trim(); if (t) html += '<p' + (cls ? ' class="' + cls + '"' : '') + '>' + inlineFmt(esc(t)).replace(/\n/g, '<br>') + '</p>'; buf = []; cls = ''; }
+    function flushL() { if (list) html += '<' + list.tag + '>' + list.items.map(function (x) { return '<li>' + inlineFmt(esc(x)) + '</li>'; }).join('') + '</' + list.tag + '>'; list = null; }
+    function flushQ() { if (quote.length) html += '<blockquote>' + inlineFmt(esc(quote.join('\n').trim())).replace(/\n/g, '<br>') + '</blockquote>'; quote = []; }
+    function flushAll() { flushP(); flushL(); flushQ(); }
     block.split('\n').forEach(function (line) {
-      var m = MARK_LINE.exec(line);
+      var m = MARK_LINE.exec(line), mm;
       var nums = m ? m[1].split(',').map(function (x) { return parseInt(x, 10); }).filter(function (n) { return n >= 1 && n <= photos.length; }) : [];
-      if (!nums.length) { buf.push(line); return; }
-      flush();
-      var figs = nums.map(function (n) {
-        used[n - 1] = true;
-        var ph = photos[n - 1];
-        return '<figure class="inl"><button type="button" data-aphoto="' + (n - 1) + '" aria-label="Xem ảnh ' + n + '"><img src="' + blob(ph.id) + '" alt="' + esc(ph.caption || p.title) + '" loading="lazy"></button>' +
-          (ph.caption ? '<figcaption>' + esc(ph.caption) + '</figcaption>' : '') + '</figure>';
-      }).join('');
-      html += nums.length > 1 ? '<div class="inl-row" style="--n:' + Math.min(nums.length, 4) + '">' + figs + '</div>' : figs;
+      if (nums.length) {
+        flushAll();
+        var figs = nums.map(function (n) {
+          used[n - 1] = true;
+          var ph = photos[n - 1];
+          return '<figure class="inl"><button type="button" data-aphoto="' + (n - 1) + '" aria-label="Xem ảnh ' + n + '"><img src="' + esc(srcOf(ph)) + '" alt="' + esc(ph.caption || p.title || '') + '" loading="lazy"></button>' +
+            (ph.caption ? '<figcaption>' + esc(ph.caption) + '</figcaption>' : '') + '</figure>';
+        }).join('');
+        html += nums.length > 1 ? '<div class="inl-row" style="--n:' + Math.min(nums.length, 4) + '">' + figs + '</div>' : figs;
+        return;
+      }
+      if ((mm = /^\s*#{2,3}\s+(.+)$/.exec(line))) { flushAll(); html += '<h2 class="sub">' + inlineFmt(esc(mm[1].trim())) + '</h2>'; return; }
+      if ((mm = /^\s*[-•]\s+(.+)$/.exec(line))) { flushP(); flushQ(); if (!list || list.tag !== 'ul') { flushL(); list = { tag: 'ul', items: [] }; } list.items.push(mm[1]); return; }
+      if ((mm = /^\s*\d+[.)]\s+(.+)$/.exec(line))) { flushP(); flushQ(); if (!list || list.tag !== 'ol') { flushL(); list = { tag: 'ol', items: [] }; } list.items.push(mm[1]); return; }
+      if ((mm = /^\s*>\s?(.*)$/.exec(line))) { flushP(); flushL(); quote.push(mm[1]); return; }
+      flushL(); flushQ();
+      if (!buf.length && (mm = ALIGN.exec(line))) { cls = ALIGN_CLS[mm[1].toLowerCase()] || ''; line = line.slice(mm[0].length); }
+      buf.push(line);
     });
-    flush();
+    flushAll();
   });
   return { html: html, used: used };
 }
