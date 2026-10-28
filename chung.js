@@ -155,7 +155,7 @@ function vnGlue(t, lite) {
   VN_RE.forEach(function (re) { if (lite && re.words > 4) return; s = s.replace(re, function (m, a, b) { return a + b.replace(/\s/g, NB); }); });
   s = s.replace(/(\d[\d/.,]*)\s(?=\S)/g, '$1' + NB);
   s = s.replace(/(\S)\s(\d+)(?=[\s,.;]|$)/g, '$1' + NB + '$2');
-  if (lite) return s;
+  if (lite === true) return s;                       // 'fill': bỏ cụm dài nhưng vẫn giữ tên riêng, chữ viết tắt, hư từ
   s = s.replace(new RegExp('(^|\\s)(' + VN_NOI + ')\\s(?=\\S)', 'giu'), '$1$2' + NB);
   if (!caps) s = s.replace(/\p{Lu}\p{Ll}*(?:\s\p{Lu}\p{Ll}*){1,3}/gu, function (m) { return m.replace(/\s/g, NB); });
   if (!caps) s = s.replace(/([^\s,;:–—-])\s(\p{Lu}{2,})(?=\s|$)/gu, '$1' + NB + '$2'); // chữ viết tắt (BOSS, PTKD) đi liền chữ trước, không nối qua dấu câu
@@ -197,7 +197,7 @@ function fitPlan(el, text, W, maxLines) {
       len += w[i] + sp;
       if (len > W && j - i > 1) break;
       if (best[k - 1][i] >= INF) continue;
-      var slack = Math.max(0, W - len) / W, cost = slack * slack + (len > W ? 10 : 0);
+      var slack = Math.max(0, W - len) / W, cost = (j < n ? slack * slack : (len < W * 0.15 ? 0.3 : 0)) + (len > W ? 10 : 0);   // lấp đầy các dòng trên, dòng cuối tự do (chỉ tránh một chữ mồ côi)
       if (j < n && /[,–—:;\-]$/.test(chunks[j - 1])) cost -= 0.12;    // ngắt sau dấu câu: đẹp
       if (j < n && /^[-–—]/.test(chunks[j])) cost += 0.5;              // không để dấu gạch mở đầu dòng
       if (j < n && tail[j - 1]) cost -= 0.15;
@@ -216,7 +216,7 @@ function fitBreak(el, maxLines) {
   if (el.dataset.src == null) el.dataset.src = el.textContent;
   el.style.fontSize = ''; el.style.display = 'block'; el.style.webkitLineClamp = 'unset'; el.style.overflow = 'visible';
   el.textContent = '';
-  var text = vnGlue(el.dataset.src), W = el.clientWidth - 2, base = parseFloat(getComputedStyle(el).fontSize), size = base, lines = null;
+  var text = vnGlue(el.dataset.src, 'fill'), W = el.clientWidth - 2, base = parseFloat(getComputedStyle(el).fontSize), size = base, lines = null;
   while (!(lines = fitPlan(el, text, W, maxLines)) && size > 20) { size = Math.max(20, size - 2); el.style.fontSize = size + 'px'; }
   if (lines && lines.length > 1 && size === base) {      // chưa bị thu nhỏ: thử thu 10% để bớt một dòng
     el.style.fontSize = (size * 0.9) + 'px';
