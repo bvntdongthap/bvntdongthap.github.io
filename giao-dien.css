@@ -94,9 +94,9 @@ img { max-width: 100%; }
 .slide > .bg > img, .slide > .bg > svg { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40%); mask-image: linear-gradient(90deg, transparent 0, #000 40%); transform: scale(1.06); transition: transform 7s ease-out; }
 .slide.on > .bg > img, .slide.on > .bg > svg { transform: scale(1); }
 .slide::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(4,20,34,.6) 0%, rgba(4,20,34,0) 30%); }
-.slide .cap { position: absolute; z-index: 3; inset: 0; display: flex; align-items: center; padding: 0 0 26px clamp(24px, 4.5vw, 56px); pointer-events: none; }
+.slide .cap { position: absolute; z-index: 3; inset: 0; display: flex; align-items: center; padding: 0 0 26px clamp(28px, 5.5vw, 72px); pointer-events: none; }
 .slide .cap .wrap { width: 100%; max-width: none; margin: 0; padding: 0; }
-.slide .cap .inner { max-width: min(480px, 42%); color: #fff; pointer-events: auto; }
+.slide .cap .inner { max-width: min(540px, 47%); color: #fff; pointer-events: auto; }
 .slide .kicker { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-hi); }
 .slide .kicker::before { content: ""; width: 28px; height: 2px; background: var(--bv-gold); }
 .slide h2 { margin-top: 12px; font-size: clamp(22px, 2.6vw, 34px); line-height: 1.18; font-weight: 900; letter-spacing: -.01em; text-wrap: pretty; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -360,3 +360,10 @@ a.pcard, a.item, a.evi { color: inherit; }
 .prose p.al-right { text-align: right; margin-left: auto; }
 .prose p.al-justify { text-align: justify; }
 .prose > :first-child { margin-top: 0; }
+
+/* ===== Tiêu đề: chia đều các dòng (cụm từ đã được giữ liền bằng vnHeadline) ===== */
+.slide h2, .art h1, .pcard .pic h3, .mini b, .item b, .evi strong, .prose h2.sub, .sec-bar h2 { text-wrap: balance; }
+.art h1.long { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.25; letter-spacing: 0; }
+@media (max-width: 600px) { .art h1, .art h1.long { font-size: 23px; line-height: 1.28; } }
+/* Mũi tên chuyển slide chỉ hiện khi rê chuột vào banner, không che chữ. */
+.sl-nav { opacity: 0; } .slider:hover .sl-nav, .sl-nav:focus-visible { opacity: 1; }

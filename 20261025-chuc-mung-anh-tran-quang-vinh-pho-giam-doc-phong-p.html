@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
-<link rel="stylesheet" href="giao-dien.css?v=ef62dc34">
+<link rel="stylesheet" href="giao-dien.css?v=c6eb686f">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -76,7 +76,7 @@
 </nav>
 
 <main class="wrap body">
-  <article class="art" id="art" aria-live="polite"><nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span>›</span><a href="index.html#box-honor">Vinh danh</a></nav><span class="lab k-honor">Vinh danh</span><h1>Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự</h1><div class="meta"><span>Chủ Nhật, 25/10/2026</span></div><figure class="art-cover"><img src="anh/20261025-chuc-mung-anh-tran-quang-vinh-pho-giam-doc-phong-p/01.jpg" alt="Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự"></figure><div class="prose"><p class="al-justify">🔥 Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự xuất sắc hoàn thành mục tiêu kinh doanh tháng 10/2026. Chúc Anh Trần Quang Vinh tiếp tục tăng tốc mạnh mẽ trong thời gian sắp tới💪💪</p></div></article>
+  <article class="art" id="art" aria-live="polite"><nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span>›</span><a href="index.html#box-honor">Vinh danh</a></nav><span class="lab k-honor">Vinh danh</span><h1 class="long">Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự</h1><div class="meta"><span>Chủ Nhật, 25/10/2026</span></div><figure class="art-cover"><img src="anh/20261025-chuc-mung-anh-tran-quang-vinh-pho-giam-doc-phong-p/01.jpg" alt="Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự"></figure><div class="prose"><p class="al-justify">🔥 Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự xuất sắc hoàn thành mục tiêu kinh doanh tháng 10/2026. Chúc Anh Trần Quang Vinh tiếp tục tăng tốc mạnh mẽ trong thời gian sắp tới💪💪</p></div></article>
   <aside class="side" aria-label="Thanh bên">
     <section class="box"><h3>Bài mới đăng</h3><div id="side-latest"></div></section>
     <section class="box k-ev"><h3>Sắp diễn ra</h3><div id="side-events"></div></section>
@@ -108,7 +108,7 @@
 
 <script>window.BAI_ID = "20261025-chuc-mung-anh-tran-quang-vinh-pho-giam-doc-phong-p";</script>
 <script src="du-lieu/bai-viet.js?v=5c3ef2df"></script>
-<script src="chung.js?v=6097fec9"></script>
+<script src="chung.js?v=e5a66d03"></script>
 <script>
 (function () {
   var posts = loadPosts(), byId = {};
@@ -144,7 +144,7 @@
   $('#art').innerHTML =
     '<nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span>›</span><a href="index.html#' + sec + '">' + KIND[p.kind] + '</a></nav>' +
     '<span class="lab k-' + p.kind + '">' + KIND[p.kind] + '</span>' + (p.sample ? ' <span class="t-sample">Mẫu</span>' : '') +
-    '<h1>' + esc(p.title) + '</h1>' +
+    '<h1' + (p.title.length > 56 ? ' class="long"' : '') + '>' + vnHeadline(p.title) + '</h1>' +
     '<div class="meta"><span>' + icon('cal') + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</span>' + (p.place ? '<span>' + icon('pin') + esc(p.place) + '</span>' : '') + (photos.length ? '<span>' + icon('img') + photos.length + ' ảnh</span>' : '') + '</div>' +
     info + '<figure class="art-cover">' + cover + (photos.length && photos[0].caption ? '<figcaption>' + esc(photos[0].caption) + '</figcaption>' : '') + '</figure>' +
     (p.excerpt ? '<p class="lead">' + esc(p.excerpt) + '</p>' : '') +

@@ -74,12 +74,12 @@ function cardHTML(p) {
     : '<span>' + icon('cal') + esc(wd(p.date)) + '</span>' + (p.photos.length ? '<span>' + icon('img') + p.photos.length + ' ảnh</span>' : '') + (p.excerpt ? '' : '');
   var when = p.kind === 'event' && daysFrom(p.date) >= 0 ? '<em>' + (daysFrom(p.date) === 0 ? 'Hôm nay' : 'Còn ' + daysFrom(p.date) + ' ngày') + '</em>' + esc(fmtD(p.date)) : esc(fmtD(p.date));
   return '<a href="' + postHref(p.id) + '" class="pcard" data-open="' + esc(p.id) + '"><span class="lab k-' + p.kind + '">' + KIND[p.kind] + '</span>' +
-    '<span class="pic">' + ribbon + media(p) + '<h3>' + esc(p.title) + '</h3></span>' +
+    '<span class="pic">' + ribbon + media(p) + '<h3>' + vnHeadline(p.title) + '</h3></span>' +
     '<span class="facts">' + facts + '</span>' +
     '<span class="pfoot"><span class="when">' + when + '</span><span class="detail">Xem chi tiết</span></span></a>';
 }
 function itemHTML(p) {
-  return '<a href="' + postHref(p.id) + '" class="item" data-open="' + esc(p.id) + '"><span class="th">' + media(p) + '</span><span><b>' + esc(p.title) + '</b><small>' + esc(fmtD(p.date)) + (p.sample ? ' · <span class="t-sample">Mẫu</span>' : '') + '</small>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '</span></a>';
+  return '<a href="' + postHref(p.id) + '" class="item" data-open="' + esc(p.id) + '"><span class="th">' + media(p) + '</span><span><b>' + vnHeadline(p.title) + '</b><small>' + esc(fmtD(p.date)) + (p.sample ? ' · <span class="t-sample">Mẫu</span>' : '') + '</small>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '</span></a>';
 }
 
 // Nội dung bài: các đoạn cách nhau một dòng trống. Cú pháp định dạng (thanh công cụ chèn sẵn):
@@ -137,6 +137,28 @@ function renderBody(p, photos, srcOf) {
     flushAll();
   });
   return { html: html, used: used };
+}
+// Ngắt dòng tiêu đề kiểu tiếng Việt: giữ liền các cụm từ (Bảo Việt Nhân Thọ, Bộ Tài chính, trái tim…),
+// số với đơn vị, tên người, từ nối với chữ sau, không để một chữ lẻ ở dòng cuối; ưu tiên ngắt sau dấu gạch/phẩy.
+// Trả về HTML đã esc, dùng thay esc(title) ở mọi tiêu đề; CSS text-wrap: balance chia đều các dòng.
+var VN_CUM = ['triệu trái tim', 'nhận bằng khen', 'bảo việt nhân thọ', 'bảo việt', 'nhân thọ', 'đồng tháp', 'bộ tài chính', 'tài chính', 'bằng khen', 'tổng công ty', 'công ty',
+  'tư vấn viên', 'khách hàng', 'khai trương', 'trụ sở mới', 'trụ sở', 'chương trình', 'tuyển dụng', 'vinh danh', 'vinh dự', 'sự kiện', 'hội nghị',
+  'vàng son', 'trái tim', 'chung nhịp', 'phó giám đốc', 'giám đốc', 'hồng ngự', 'cao lãnh', 'sa đéc', 'lập nghiệp', 'thiện nguyện', 'đào tạo',
+  'hoạt động', 'kinh doanh', 'xuất sắc', 'mục tiêu', 'đón nhận', 'tri ân', 'thành công', 'sức mạnh', 'đoàn kết', 'đồng lòng', 'văn phòng',
+  'khu vực', 'cán bộ', 'nhân viên', 'tân binh', 'sơ kết', 'tổng kết', 'kỷ niệm', 'chúc mừng', 'ra mắt', 'sản phẩm', 'bảo hiểm', 'quyền lợi'];
+var VN_NOI = 'và|của|cho|tại|với|các|những|một|từ|về|trong|theo|để|là|anh|chị|ông|bà|lớp|ngày|tháng|năm|quý';
+var VN_RE = VN_CUM.sort(function (a, b) { return b.length - a.length; }).map(function (c) { return new RegExp('(^|[^\\p{L}])(' + c.replace(/ /g, '\\s') + ')(?![\\p{L}])', 'giu'); });
+function vnHeadline(t) {
+  var NB = ' ', s = esc(String(t || '').replace(/\s+/g, ' ').trim());
+  var caps = s === s.toUpperCase();
+  VN_RE.forEach(function (re) { s = s.replace(re, function (m, a, b) { return a + b.replace(/\s/g, NB); }); });
+  s = s.replace(/(\d[\d/.,]*)\s(?=\S)/g, '$1' + NB);
+  s = s.replace(new RegExp('(^|\\s)(' + VN_NOI + ')\\s(?=\\S)', 'giu'), '$1$2' + NB);
+  if (!caps) s = s.replace(/\p{Lu}\p{Ll}*(?:\s\p{Lu}\p{Ll}*){1,3}/gu, function (m) { return m.replace(/\s/g, NB); });
+  if (!caps) s = s.replace(/\s(\p{Lu}{2,})(?=\s|$)/gu, NB + '$1'); // chữ viết tắt (BOSS, PTKD) đi liền chữ trước
+  s = s.replace(/\s([–—-])\s/g, NB + '$1 ');
+  s = s.replace(/\s(\S+)$/, NB + '$1');
+  return s;
 }
 function eviHTML(p) {
   var d = parseD(p.date), n = daysFrom(p.date);
