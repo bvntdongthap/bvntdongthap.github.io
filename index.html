@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
-<link rel="stylesheet" href="giao-dien.css?v=6f0f9f4b">
+<link rel="stylesheet" href="giao-dien.css?v=7093e622">
 </head>
 <body>
 
@@ -195,7 +195,8 @@
     pick.forEach(function (p, k) {
       var el = document.createElement('div');
       el.className = 'slide'; el.dataset.post = p.id; el.dataset.i = k + 1;
-      el.innerHTML = '<div class="bg">' + media(p, true) + '</div><div class="cap"><div class="wrap"><div class="inner"><span class="kicker">' + KIND[p.kind] + ' · ' + esc(fmtD(p.date)) + (p.sample ? ' · Mẫu' : '') + '</span><h2>' + esc(p.title) + '</h2>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '<a class="btn btn-gold" href="' + postHref(p.id) + '">Xem chi tiết</a></div></div></div>';
+      var bgImg = p.photos[0] ? '<img src="' + blob(p.photos[0].id) + '" alt="" aria-hidden="true">' : '';
+      el.innerHTML = '<div class="bg">' + bgImg + '</div><div class="visual">' + media(p, true) + '</div><div class="cap"><div class="wrap"><div class="inner"><span class="kicker">' + KIND[p.kind] + ' · ' + esc(fmtD(p.date)) + (p.sample ? ' · Mẫu' : '') + '</span><h2>' + esc(p.title) + '</h2>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '<a class="btn btn-gold" href="' + postHref(p.id) + '">Xem chi tiết</a></div></div></div>';
       root.insertBefore(el, dotsAnchor);
     });
     sl.n = pick.length + 1; if (sl.i >= sl.n) sl.i = 0;
