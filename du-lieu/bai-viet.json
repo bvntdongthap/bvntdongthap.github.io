@@ -28,7 +28,7 @@
     "title": "Chương trình BOSS tuyển dụng",
     "date": "2026-10-27",
     "excerpt": "Khai giảng lớp Bảo Việt Lập Nghiệp tháng 11/2026.",
-    "body": "Khai giảng lớp Bảo Việt Lập Nghiệp tháng 11/2026. Chương trình sẽ đồng hành cùng với hai giảng viên nội bộ của công ty Bảo Việt Nhân Thọ Đồng Tháp là: Anh Trần Quang Vinh - Giám Đốc PKD3, Anh Nguyễn Minh Trí - Giám Đốc PKD1. Cùng các anh chị sẽ xây dựng một hành trình mới với phương châm \"Khởi đầu hôm nay - Vững bước tương lai\".",
+    "body": "[đều] Khai giảng lớp Bảo Việt Lập Nghiệp tháng 11/2026. Chương trình sẽ đồng hành cùng với hai giảng viên nội bộ của công ty Bảo Việt Nhân Thọ Đồng Tháp là: Anh Trần Quang Vinh - Giám Đốc PKD3, Anh Nguyễn Minh Trí - Giám Đốc PKD1. Cùng các anh chị sẽ xây dựng một hành trình mới với phương châm \"Khởi đầu hôm nay - Vững bước tương lai\".",
     "time": "",
     "timeEnd": "",
     "place": "",
@@ -106,5 +106,28 @@
     ],
     "featured": true,
     "createdAt": "2026-10-27T04:31:09Z"
+  },
+  {
+    "id": "20261013-bao-viet-nhan-tho-dong-thap-vinh-du-nhan-bang-khen",
+    "kind": "event",
+    "title": "BẢO VIỆT NHÂN THỌ ĐỒNG THÁP VINH DỰ NHẬN BẰNG KHEN BỘ TÀI CHÍNH",
+    "date": "2026-10-13",
+    "excerpt": "",
+    "body": "[đều] 🏆 VINH DỰ ĐÓN NHẬN BẰNG KHEN CỦA BỘ TÀI CHÍNH ✨\n\nMột niềm tự hào được tạo nên từ sự đồng lòng, nỗ lực và cống hiến của cả một tập thể!\n\n🎯Bảo Việt Nhân thọ Đồng Tháp vinh dự được Bộ trưởng Bộ Tài chính tặng Bằng khen vì đã có thành tích xuất sắc trong thực hiện nhiệm vụ từ năm 2024 đến năm 2025. Đây không chỉ là sự ghi nhận đáng trân trọng mà còn là động lực để tập thể Công ty tiếp tục nỗ lực, phát triển và mang đến những giá trị tốt đẹp hơn cho cộng đồng.\n💙 Trân trọng cảm ơn toàn thể Cán bộ, Quý Anh/Chị Cấp quản lý, Tư vấn viên đã luôn tận tâm, trách nhiệm, bền bỉ đồng hành và đóng góp vào thành quả chung của Công ty.\n[Ảnh 1]\n💛 Đặc biệt, xin gửi lời tri ân sâu sắc đến Quý Khách hàng – những người đã tin tưởng lựa chọn, trao gửi niềm tin và đồng hành cùng Bảo Việt Nhân thọ Đồng Tháp trên hành trình bảo vệ tài chính, vun đắp bình an và xây dựng tương lai vững chắc cho mỗi gia đình. Chính sự tin yêu của Quý Khách hàng là động lực để chúng tôi không ngừng hoàn thiện, phục vụ bằng sự tận tâm và giữ vững cam kết đồng hành lâu dài.\n[Ảnh 2]\n\n💙 BẢO VIỆT NHÂN THỌ ĐỒNG THÁP – ĐOÀN KẾT LÀ SỨC MẠNH – ĐỒNG LÒNG LÀ THÀNH CÔNG!❤️",
+    "time": "",
+    "timeEnd": "",
+    "place": "",
+    "photos": [
+      {
+        "src": "anh/20261013-bao-viet-nhan-tho-dong-thap-vinh-du-nhan-bang-khen/01.jpg",
+        "caption": "Bằng khen của  Bộ Tài Chính cho Bảo Việt Đồng Tháp hoàn thành xuất sắc nhiệm vụ 2024-2025"
+      },
+      {
+        "src": "anh/20261013-bao-viet-nhan-tho-dong-thap-vinh-du-nhan-bang-khen/02.jpg",
+        "caption": "Tập thể cán bộ công ty và CQL Đồng Tháp"
+      }
+    ],
+    "featured": true,
+    "createdAt": "2026-10-27T12:49:58.413Z"
   }
 ]
