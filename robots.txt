@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bvntdongthap.github.io/sitemap.xml

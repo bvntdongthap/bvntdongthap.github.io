@@ -142,7 +142,8 @@ function eviHTML(p) {
   var d = parseD(p.date), n = daysFrom(p.date);
   return '<a href="' + postHref(p.id) + '" class="evi" data-open="' + esc(p.id) + '"><span class="d"><b>' + pad(d.getDate()) + '</b><span>Th ' + (d.getMonth() + 1) + '</span></span><span><strong>' + esc(p.title) + '</strong><small>' + esc(wd(p.date)) + (p.time ? ' · ' + esc(p.time) : '') + ' · <span class="left">' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') + '</span></small></span></a>';
 }
-function postHref(id) { return 'bai.html?id=' + encodeURIComponent(id); }
+// Mỗi bài có trang tĩnh riêng <mã-bài>.html (tạo bằng cong-cu/tao-trang-tinh.js) để Google đọc được.
+function postHref(id) { return encodeURIComponent(id) + '.html'; }
 function loadPosts() {
   return (Array.isArray(window.BAI_VIET) ? window.BAI_VIET : []).map(function (d, i) { return clean({ id: /^[A-Za-z0-9_-]{1,80}$/.test(d && d.id) ? d.id : 'bai-' + i, data: d }); });
 }

@@ -8,6 +8,8 @@
 <meta property="og:title" content="Bản tin BVNT Đồng Tháp">
 <meta property="og:description" content="Tin tức, sự kiện, hình ảnh và hoạt động của Công ty Bảo Việt Nhân Thọ Đồng Tháp.">
 <meta property="og:type" content="website">
+<meta name="robots" content="noindex, follow">
+<!--seo--><!--/seo-->
 <link rel="icon" type="image/png" href="anh/bieu-tuong.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,13 +98,15 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="du-lieu/bai-viet.js?v=5c3ef2df"></script>
-<script src="chung.js?v=abc668d6"></script>
+<script src="chung.js?v=6097fec9"></script>
 <script>
 (function () {
   var posts = loadPosts(), byId = {};
   posts.forEach(function (p) { byId[p.id] = p; });
-  var id = new URLSearchParams(location.search).get('id') || '';
+  // Trang tĩnh của bài gán window.BAI_ID; link cũ dạng bai.html?id=… thì chuyển sang trang tĩnh.
+  var id = window.BAI_ID || new URLSearchParams(location.search).get('id') || '';
   var p = byId[id];
+  if (!window.BAI_ID && p) { location.replace(postHref(id)); return; }
   var sorted = posts.slice().sort(byDateDesc), t = todayISO();
   setToday(); initLightbox();
   Peek.init(function (k) { return byId[k]; });
