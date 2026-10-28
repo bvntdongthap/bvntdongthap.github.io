@@ -362,7 +362,19 @@ a.pcard, a.item, a.evi { color: inherit; }
 .prose > :first-child { margin-top: 0; }
 
 /* ===== Tiêu đề: chia đều các dòng (cụm từ đã được giữ liền bằng vnHeadline) ===== */
-.slide h2, .art h1, .pcard .pic h3, .mini b, .item b, .evi strong, .prose h2.sub, .sec-bar h2 { text-wrap: balance; }
+.pcard .pic h3, .mini b, .item b, .evi strong, .prose h2.sub, .sec-bar h2 { text-wrap: balance; }
+/* Banner và tiêu đề trang bài: chỗ ngắt dòng do fitBreak chọn (ít dòng, dòng đều, không tách cụm từ). */
+.slide h2, .art h1 { text-wrap: wrap; hyphens: manual; }
+/* Mỗi dòng tiêu đề là một .ln do fitBreak chia; tiêu đề trang bài căn đều hai bên (dòng cuối căn trái). */
+.slide h2 .ln, .art h1 .ln { display: block; }
+.art h1 .ln { text-align: justify; text-align-last: justify; }
+.art h1 .ln:last-child { text-align-last: left; }
+@media (max-width: 600px) { .art h1 .ln { text-align-last: left; } }
+/* Cỡ chữ cố định, đồng bộ giữa các slide và các bài. */
+.slider .slide h2 { font-size: clamp(24px, 2.6vw, 34px); line-height: 1.2; }
+.art h1 { font-size: clamp(26px, 2.9vw, 38px); line-height: 1.2; }
+.art h1.long { font-size: clamp(24px, 2.4vw, 32px); line-height: 1.25; }
+@media (max-width: 600px) { .slider .slide h2 { font-size: 24px; } .art h1, .art h1.long { font-size: 23px; } }
 .art h1.long { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.25; letter-spacing: 0; }
 @media (max-width: 600px) { .art h1, .art h1.long { font-size: 23px; line-height: 1.28; } }
 /* Mũi tên chuyển slide chỉ hiện khi rê chuột vào banner, không che chữ. */

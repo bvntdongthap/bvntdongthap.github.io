@@ -141,25 +141,102 @@ function renderBody(p, photos, srcOf) {
 // Ngắt dòng tiêu đề kiểu tiếng Việt: giữ liền các cụm từ (Bảo Việt Nhân Thọ, Bộ Tài chính, trái tim…),
 // số với đơn vị, tên người, từ nối với chữ sau, không để một chữ lẻ ở dòng cuối; ưu tiên ngắt sau dấu gạch/phẩy.
 // Trả về HTML đã esc, dùng thay esc(title) ở mọi tiêu đề; CSS text-wrap: balance chia đều các dòng.
-var VN_CUM = ['triệu trái tim', 'nhận bằng khen', 'bảo việt nhân thọ', 'bảo việt', 'nhân thọ', 'đồng tháp', 'bộ tài chính', 'tài chính', 'bằng khen', 'tổng công ty', 'công ty',
+var VN_CUM = ['bảo việt nhân thọ đồng tháp', 'khoảnh khắc', 'tin tức', 'triệu trái tim', 'nhận bằng khen', 'bảo việt nhân thọ', 'bảo việt', 'nhân thọ', 'đồng tháp', 'bộ tài chính', 'tài chính', 'bằng khen', 'tổng công ty', 'công ty',
   'tư vấn viên', 'khách hàng', 'khai trương', 'trụ sở mới', 'trụ sở', 'chương trình', 'tuyển dụng', 'vinh danh', 'vinh dự', 'sự kiện', 'hội nghị',
-  'vàng son', 'trái tim', 'chung nhịp', 'phó giám đốc', 'giám đốc', 'hồng ngự', 'cao lãnh', 'sa đéc', 'lập nghiệp', 'thiện nguyện', 'đào tạo',
+  'vàng son', 'trái tim', 'chung nhịp', 'phó giám đốc phòng', 'giám đốc phòng', 'phó giám đốc', 'giám đốc', 'hồng ngự', 'cao lãnh', 'sa đéc', 'lập nghiệp', 'thiện nguyện', 'đào tạo',
   'hoạt động', 'kinh doanh', 'xuất sắc', 'mục tiêu', 'đón nhận', 'tri ân', 'thành công', 'sức mạnh', 'đoàn kết', 'đồng lòng', 'văn phòng',
   'khu vực', 'cán bộ', 'nhân viên', 'tân binh', 'sơ kết', 'tổng kết', 'kỷ niệm', 'chúc mừng', 'ra mắt', 'sản phẩm', 'bảo hiểm', 'quyền lợi'];
 var VN_NOI = 'và|của|cho|tại|với|các|những|một|từ|về|trong|theo|để|là|anh|chị|ông|bà|lớp|ngày|tháng|năm|quý';
-var VN_RE = VN_CUM.sort(function (a, b) { return b.length - a.length; }).map(function (c) { return new RegExp('(^|[^\\p{L}])(' + c.replace(/ /g, '\\s') + ')(?![\\p{L}])', 'giu'); });
-function vnHeadline(t) {
-  var NB = ' ', s = esc(String(t || '').replace(/\s+/g, ' ').trim());
+var VN_RE = VN_CUM.sort(function (a, b) { return b.length - a.length; }).map(function (c) { var re = new RegExp('(^|[^\\p{L}])(' + c.replace(/ /g, '\\s') + ')(?![\\p{L}])', 'giu'); re.words = c.split(' ').length; return re; });
+function vnGlue(t, lite) {
+  // lite: chỉ giữ cụm ngắn (≤ 3 chữ) và số; dùng khi màn hình hẹp không chứa nổi cả cụm dài.
+  var NB = ' ', s = String(t || '').replace(/[\s ]+/g, ' ').trim();
   var caps = s === s.toUpperCase();
-  VN_RE.forEach(function (re) { s = s.replace(re, function (m, a, b) { return a + b.replace(/\s/g, NB); }); });
+  VN_RE.forEach(function (re) { if (lite && re.words > 4) return; s = s.replace(re, function (m, a, b) { return a + b.replace(/\s/g, NB); }); });
   s = s.replace(/(\d[\d/.,]*)\s(?=\S)/g, '$1' + NB);
+  s = s.replace(/(\S)\s(\d+)(?=[\s,.;]|$)/g, '$1' + NB + '$2');
+  if (lite) return s;
   s = s.replace(new RegExp('(^|\\s)(' + VN_NOI + ')\\s(?=\\S)', 'giu'), '$1$2' + NB);
   if (!caps) s = s.replace(/\p{Lu}\p{Ll}*(?:\s\p{Lu}\p{Ll}*){1,3}/gu, function (m) { return m.replace(/\s/g, NB); });
-  if (!caps) s = s.replace(/\s(\p{Lu}{2,})(?=\s|$)/gu, NB + '$1'); // chữ viết tắt (BOSS, PTKD) đi liền chữ trước
+  if (!caps) s = s.replace(/([^\s,;:–—-])\s(\p{Lu}{2,})(?=\s|$)/gu, '$1' + NB + '$2'); // chữ viết tắt (BOSS, PTKD) đi liền chữ trước, không nối qua dấu câu
   s = s.replace(/\s([–—-])\s/g, NB + '$1 ');
   s = s.replace(/\s(\S+)$/, NB + '$1');
   return s;
 }
+function vnHeadline(t) { return esc(vnGlue(t)); }
+// Ngắt dòng tối ưu cho tiêu đề lớn (banner, trang bài), cỡ chữ cố định cho đồng bộ:
+// đo độ rộng từng cụm ngay trên trang, xét mọi cách chia dòng, chọn cách ít dòng nhất rồi các dòng đều nhau nhất;
+// ngắt sau dấu gạch/phẩy/hai chấm được cộng điểm. Cụm dài hơn khung thì tách theo cụm con, rồi mới tới từng chữ.
+// Cho phép thu nhỏ tối đa 10% nếu nhờ đó bớt được một dòng; quá số dòng thì giảm cỡ chữ.
+function fitMeasurer(el) {
+  var probe = document.createElement('span');
+  probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;left:-9999px;top:0';
+  el.appendChild(probe);
+  var cache = {};
+  return { w: function (t) { if (!(t in cache)) { probe.textContent = t; cache[t] = probe.getBoundingClientRect().width; } return cache[t]; },
+           done: function () { probe.remove(); } };
+}
+function fitPlan(el, text, W, maxLines) {
+  var M = fitMeasurer(el), sp = M.w('a a') - M.w('aa'), chunks = [], tail = {};
+  text.split(' ').forEach(function (c) {
+    if (!c) return;
+    if (M.w(c) <= W) { chunks.push(c); return; }
+    vnGlue(c.replace(/ /g, ' '), true).split(' ').forEach(function (d) {
+      if (M.w(d) <= W) chunks.push(d); else d.split(' ').forEach(function (x) { if (x) chunks.push(x); });
+    });
+    tail[chunks.length - 1] = true;                     // phần đuôi của cụm dài bị tách: nên kết thúc dòng tại đây
+  });
+  var w = chunks.map(M.w), n = chunks.length, INF = 1e18, best = [], from = [];
+  M.done();
+  for (var k = 0; k <= maxLines; k++) { best.push(new Array(n + 1).fill(INF)); from.push(new Array(n + 1).fill(-1)); }
+  best[0][0] = 0;
+  for (k = 1; k <= maxLines; k++) for (var j = 1; j <= n; j++) {
+    var len = -sp;
+    for (var i = j - 1; i >= 0; i--) {
+      len += w[i] + sp;
+      if (len > W && j - i > 1) break;
+      if (best[k - 1][i] >= INF) continue;
+      var slack = Math.max(0, W - len) / W, cost = slack * slack + (len > W ? 10 : 0);
+      if (j < n && /[,–—:;\-]$/.test(chunks[j - 1])) cost -= 0.12;    // ngắt sau dấu câu: đẹp
+      if (j < n && /^[-–—]/.test(chunks[j])) cost += 0.5;              // không để dấu gạch mở đầu dòng
+      if (j < n && tail[j - 1]) cost -= 0.15;
+      if (best[k - 1][i] + cost < best[k][j]) { best[k][j] = best[k - 1][i] + cost; from[k][j] = i; }
+    }
+  }
+  for (k = 1; k <= maxLines; k++) if (best[k][n] < INF) {
+    var lines = [], jj = n;
+    for (var kk = k; kk >= 1; kk--) { var ii = from[kk][jj]; lines.unshift(chunks.slice(ii, jj).join(' ')); jj = ii; }
+    return lines;
+  }
+  return null;
+}
+function fitBreak(el, maxLines) {
+  if (!el || !el.clientWidth) return;
+  if (el.dataset.src == null) el.dataset.src = el.textContent;
+  el.style.fontSize = ''; el.style.display = 'block'; el.style.webkitLineClamp = 'unset'; el.style.overflow = 'visible';
+  el.textContent = '';
+  var text = vnGlue(el.dataset.src), W = el.clientWidth - 2, base = parseFloat(getComputedStyle(el).fontSize), size = base, lines = null;
+  while (!(lines = fitPlan(el, text, W, maxLines)) && size > 20) { size = Math.max(20, size - 2); el.style.fontSize = size + 'px'; }
+  if (lines && lines.length > 1 && size === base) {      // chưa bị thu nhỏ: thử thu 10% để bớt một dòng
+    el.style.fontSize = (size * 0.9) + 'px';
+    var fewer = fitPlan(el, text, W, lines.length - 1);
+    if (fewer) { lines = fewer; size = size * 0.9; } else el.style.fontSize = '';
+  }
+  if (!lines) { el.style.fontSize = size + 'px'; lines = fitPlan(el, text, W, 8); }   // cỡ nhỏ nhất vẫn quá dài: thêm dòng, vẫn giữ cụm từ
+  if (!lines) { el.textContent = el.dataset.src; return; }
+  el.innerHTML = lines.map(function (l) { return '<span class="ln">' + esc(l) + '</span>'; }).join('');
+}
+function fitAll() {
+  var narrow = window.innerWidth < 760;
+  document.querySelectorAll('.slide h2').forEach(function (h) { fitBreak(h, 3); });
+  document.querySelectorAll('.art h1').forEach(function (h) { fitBreak(h, narrow ? 5 : 3); });
+}
+(function () {
+  if (typeof addEventListener !== 'function') return; // chạy trong Node (công cụ tạo trang tĩnh) thì bỏ qua
+  var t = 0;
+  addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fitAll, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitAll(); });
+})();
 function eviHTML(p) {
   var d = parseD(p.date), n = daysFrom(p.date);
   return '<a href="' + postHref(p.id) + '" class="evi" data-open="' + esc(p.id) + '"><span class="d"><b>' + pad(d.getDate()) + '</b><span>Th ' + (d.getMonth() + 1) + '</span></span><span><strong>' + esc(p.title) + '</strong><small>' + esc(wd(p.date)) + (p.time ? ' · ' + esc(p.time) : '') + ' · <span class="left">' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') + '</span></small></span></a>';

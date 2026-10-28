@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
-<link rel="stylesheet" href="giao-dien.css?v=c6eb686f">
+<link rel="stylesheet" href="giao-dien.css?v=f026544e">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -76,7 +76,7 @@
 </nav>
 
 <main class="wrap body">
-  <article class="art" id="art" aria-live="polite"><nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span>›</span><a href="index.html#box-honor">Vinh danh</a></nav><span class="lab k-honor">Vinh danh</span><h1 class="long">Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự</h1><div class="meta"><span>Chủ Nhật, 25/10/2026</span></div><figure class="art-cover"><img src="anh/20261025-chuc-mung-anh-tran-quang-vinh-pho-giam-doc-phong-p/01.jpg" alt="Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự"></figure><div class="prose"><p class="al-justify">🔥 Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự xuất sắc hoàn thành mục tiêu kinh doanh tháng 10/2026. Chúc Anh Trần Quang Vinh tiếp tục tăng tốc mạnh mẽ trong thời gian sắp tới💪💪</p></div></article>
+  <article class="art" id="art" aria-live="polite"><nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span>›</span><a href="index.html#box-honor">Vinh danh</a></nav><span class="lab k-honor">Vinh danh</span><h1 class="long">Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự</h1><div class="meta"><span>Chủ Nhật, 25/10/2026</span></div><figure class="art-cover"><img src="anh/20261025-chuc-mung-anh-tran-quang-vinh-pho-giam-doc-phong-p/01.jpg" alt="Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự"></figure><div class="prose"><p class="al-justify">🔥 Chúc mừng Anh Trần Quang Vinh - Phó Giám đốc Phòng, PTP PTKD 3 - VPKV Hồng Ngự xuất sắc hoàn thành mục tiêu kinh doanh tháng 10/2026. Chúc Anh Trần Quang Vinh tiếp tục tăng tốc mạnh mẽ trong thời gian sắp tới💪💪</p></div></article>
   <aside class="side" aria-label="Thanh bên">
     <section class="box"><h3>Bài mới đăng</h3><div id="side-latest"></div></section>
     <section class="box k-ev"><h3>Sắp diễn ra</h3><div id="side-events"></div></section>
@@ -108,7 +108,7 @@
 
 <script>window.BAI_ID = "20261025-chuc-mung-anh-tran-quang-vinh-pho-giam-doc-phong-p";</script>
 <script src="du-lieu/bai-viet.js?v=5c3ef2df"></script>
-<script src="chung.js?v=e5a66d03"></script>
+<script src="chung.js?v=075bcf47"></script>
 <script>
 (function () {
   var posts = loadPosts(), byId = {};
@@ -151,6 +151,7 @@
     (rb.html ? '<div class="prose">' + rb.html + '</div>' : '') +
     (rest.length && photos.length > 1 ? '<div class="reader-photos">' + rest.map(function (i) { var ph = photos[i]; return '<button type="button" data-aphoto="' + i + '" aria-label="Xem ảnh ' + (i + 1) + '"><img src="' + blob(ph.id) + '" alt="' + esc(ph.caption) + '" loading="lazy"></button>'; }).join('') + '</div>' : '') +
     '<div class="art-tools"><a class="btn btn-line" href="index.html">← Về trang chủ</a><button class="btn btn-primary" type="button" id="copy-link">Sao chép liên kết bài</button></div>';
+  fitAll();
   document.addEventListener('click', function (e) { var b = e.target.closest('[data-aphoto]'); if (b) openLB(photos, +b.dataset.aphoto, p.id); });
   $('#copy-link').addEventListener('click', function () {
     var url = location.href.split('#')[0];
