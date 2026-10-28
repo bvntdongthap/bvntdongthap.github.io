@@ -74,12 +74,12 @@ function cardHTML(p) {
     : '<span>' + icon('cal') + esc(wd(p.date)) + '</span>' + (p.photos.length ? '<span>' + icon('img') + p.photos.length + ' ảnh</span>' : '') + (p.excerpt ? '' : '');
   var when = p.kind === 'event' && daysFrom(p.date) >= 0 ? '<em>' + (daysFrom(p.date) === 0 ? 'Hôm nay' : 'Còn ' + daysFrom(p.date) + ' ngày') + '</em>' + esc(fmtD(p.date)) : esc(fmtD(p.date));
   return '<a href="' + postHref(p.id) + '" class="pcard" data-open="' + esc(p.id) + '"><span class="lab k-' + p.kind + '">' + KIND[p.kind] + '</span>' +
-    '<span class="pic">' + ribbon + media(p) + '<h3>' + vnHeadline(p.title) + '</h3></span>' +
+    '<span class="pic">' + ribbon + media(p) + '<h3>' + vnShort(p.title) + '</h3></span>' +
     '<span class="facts">' + facts + '</span>' +
     '<span class="pfoot"><span class="when">' + when + '</span><span class="detail">Xem chi tiết</span></span></a>';
 }
 function itemHTML(p) {
-  return '<a href="' + postHref(p.id) + '" class="item" data-open="' + esc(p.id) + '"><span class="th">' + media(p) + '</span><span><b>' + vnHeadline(p.title) + '</b><small>' + esc(fmtD(p.date)) + (p.sample ? ' · <span class="t-sample">Mẫu</span>' : '') + '</small>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '</span></a>';
+  return '<a href="' + postHref(p.id) + '" class="item" data-open="' + esc(p.id) + '"><span class="th">' + media(p) + '</span><span><b>' + vnShort(p.title) + '</b><small>' + esc(fmtD(p.date)) + (p.sample ? ' · <span class="t-sample">Mẫu</span>' : '') + '</small>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '</span></a>';
 }
 
 // Nội dung bài: các đoạn cách nhau một dòng trống. Cú pháp định dạng (thanh công cụ chèn sẵn):
@@ -164,6 +164,7 @@ function vnGlue(t, lite) {
   return s;
 }
 function vnHeadline(t) { return esc(vnGlue(t)); }
+function vnShort(t) { return esc(vnGlue(t, true)); }   // thẻ nhỏ, cột hẹp: chỉ giữ cụm ngắn để không tràn
 // Ngắt dòng tối ưu cho tiêu đề lớn (banner, trang bài), cỡ chữ cố định cho đồng bộ:
 // đo độ rộng từng cụm ngay trên trang, xét mọi cách chia dòng, chọn cách ít dòng nhất rồi các dòng đều nhau nhất;
 // ngắt sau dấu gạch/phẩy/hai chấm được cộng điểm. Cụm dài hơn khung thì tách theo cụm con, rồi mới tới từng chữ.
