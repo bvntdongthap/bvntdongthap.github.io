@@ -2,6 +2,25 @@
 // Dữ liệu bài nằm ở du-lieu/bai-viet.js (window.BAI_VIET), nạp trước file này.
 'use strict';
 var KIND = { news: 'Tin tức', event: 'Sự kiện', activity: 'Hoạt động', honor: 'Vinh danh' };
+// ---------- Đơn vị: 5 văn phòng khu vực và 1 ban; bài không gắn đơn vị là tin toàn công ty ----------
+var UNITS = [['cao-lanh-lap-vo', 'Ban Cao Lãnh + Lấp Vò'], ['sa-dec', 'VPKV Sa Đéc'], ['hong-ngu', 'VPKV Hồng Ngự'], ['thap-muoi', 'VPKV Tháp Mười'], ['thanh-binh', 'VPKV Thanh Bình'], ['tan-hong', 'VPKV Tân Hồng']];
+var UNIT = {};
+UNITS.forEach(function (u) { UNIT[u[0]] = u[1]; });
+function matchFilter(p, muc, unit) { return (!muc || p.kind === muc) && (!unit || p.unit === unit); }
+function filterTitle(muc, unit) { return [muc ? KIND[muc] : '', unit ? UNIT[unit] : ''].filter(Boolean).join(' · ') || 'Mới nhất'; }
+// Nút lọc: Tất cả · Tin tức · Sự kiện · Hoạt động · [Các VPKV ▾] · Vinh danh. active=false khi đang tìm kiếm.
+function chipsHTML(muc, unit, active) {
+  var chip = function (k, name) { return '<button class="chip" type="button" data-muc="' + k + '" aria-pressed="' + (active && (k ? muc === k : !muc && !unit)) + '">' + name + '</button>'; };
+  var sel = '<label class="chip chip-sel' + (active && unit ? ' on' : '') + '"><select data-unit aria-label="Lọc theo văn phòng khu vực"><option value="">Các VPKV</option>' +
+    UNITS.map(function (u) { return '<option value="' + u[0] + '"' + (unit === u[0] ? ' selected' : '') + '>' + esc(u[1]) + '</option>'; }).join('') + '</select></label>';
+  return chip('', 'Tất cả') + NAV.slice(0, 3).map(function (n) { return chip(n[0], n[1]); }).join('') + sel + chip(NAV[3][0], NAV[3][1]);
+}
+// Menu thả xuống "Các VPKV" trên đầu trang: đóng khi bấm ra ngoài hoặc chọn xong.
+function navDdInit() {
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('details.nav-dd[open]').forEach(function (d) { if (!d.contains(e.target) || e.target.closest('a')) d.removeAttribute('open'); });
+  });
+}
 var WD = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
 var $ = function (s, r) { return (r || document).querySelector(s); };
 
@@ -24,7 +43,7 @@ function clean(p) {
   var photos = Array.isArray(d.photos) ? d.photos.filter(function (x) { return x && okId(x.src); }).slice(0, 200).map(function (x) { return { id: x.src, caption: String(x.caption || '').slice(0, 200), cover: !!x.cover }; }) : [];
   return { id: p.id, kind: kind, title: String(d.title || 'Chưa có tiêu đề').slice(0, 200), excerpt: String(d.excerpt || '').slice(0, 400), body: String(d.body || '').slice(0, 20000),
     date: parseD(d.date) ? d.date : todayISO(), time: /^\d{2}:\d{2}$/.test(d.time) ? d.time : '', timeEnd: /^\d{2}:\d{2}$/.test(d.timeEnd) ? d.timeEnd : '',
-    place: String(d.place || '').slice(0, 200), photos: photos, featured: !!d.featured, sample: !!d.sample, createdAt: String(d.createdAt || '') };
+    unit: UNIT[d.unit] ? d.unit : '', place: String(d.place || '').slice(0, 200), photos: photos, featured: !!d.featured, sample: !!d.sample, createdAt: String(d.createdAt || '') };
 }
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 
@@ -229,6 +248,7 @@ function postHref(id) { return encodeURIComponent(id) + '.html'; }
 // Ảnh nhỏ do dong-dau-phien-ban.py tạo cạnh ảnh gốc.
 function thumb(id) { var s = blob(id); return /\.jpe?g$/i.test(s) ? s.replace(/\.jpe?g$/i, '-nho.jpg') : s; }
 function mucHref(kind) { return 'index.html?muc=' + kind + '#moi-nhat'; }
+function unitHref(unit) { return 'index.html?dv=' + unit + '#moi-nhat'; }
 var HOME_HREF = 'index.html';
 function loadPosts() {
   return (Array.isArray(window.BAI_VIET) ? window.BAI_VIET : []).map(function (d, i) { return clean({ id: /^[A-Za-z0-9_-]{1,80}$/.test(d && d.id) ? d.id : 'bai-' + i, data: d }); });
@@ -343,7 +363,7 @@ function whenText(p) { return wd(p.date) + ', ' + fmtD(p.date) + (p.time ? ' · 
 function card(p) {
   var n = daysFrom(p.date), soon = p.kind === 'event' && n >= 0;
   return '<a class="card" href="' + postHref(p.id) + '" data-open="' + esc(p.id) + '">' + photoBox(p) +
-    '<span class="kick k-' + p.kind + '">' + KIND[p.kind] + (soon ? ' · ' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') : '') + (p.sample ? ' · Mẫu' : '') + '</span>' +
+    '<span class="kick k-' + p.kind + '">' + KIND[p.kind] + (p.unit ? ' · ' + UNIT[p.unit] : '') + (soon ? ' · ' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') : '') + (p.sample ? ' · Mẫu' : '') + '</span>' +
     '<h3>' + vnShort(p.title) + '</h3>' + (snippet(p, 200) ? '<span class="sn">' + esc(snippet(p, 200)) + '</span>' : '') +
     '<span class="meta"><span>' + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</span>' + (p.photos.length > 1 ? '<span>' + p.photos.length + ' ảnh</span>' : '') + '</span></a>';
 }
@@ -402,7 +422,7 @@ function postHTML(p, posts, tools) {
   var others = posts.filter(function (x) { return x.id !== p.id; });
   var rel = others.filter(function (x) { return x.kind === p.kind; }).concat(others.filter(function (x) { return x.kind !== p.kind; })).slice(0, 3);
   return '<article>' +
-    '<header class="art"><nav class="crumb" aria-label="Vị trí"><a href="' + HOME_HREF + '">Trang chủ</a><span aria-hidden="true">/</span><a class="kick k-' + p.kind + '" href="' + mucHref(p.kind) + '">' + KIND[p.kind] + '</a>' + (p.sample ? '<span class="kick">Bài mẫu</span>' : '') + '</nav>' +
+    '<header class="art"><nav class="crumb" aria-label="Vị trí"><a href="' + HOME_HREF + '">Trang chủ</a><span aria-hidden="true">/</span><a class="kick k-' + p.kind + '" href="' + mucHref(p.kind) + '">' + KIND[p.kind] + '</a>' + (p.unit ? '<span aria-hidden="true">/</span><a class="kick unit" href="' + unitHref(p.unit) + '">' + UNIT[p.unit] + '</a>' : '') + (p.sample ? '<span class="kick">Bài mẫu</span>' : '') + '</nav>' +
     '<h1' + (p.title.length > 56 ? ' class="long"' : '') + '>' + vnHeadline(p.title) + '</h1>' +
     (p.excerpt ? '<p class="lead">' + esc(p.excerpt) + '</p>' : '') +
     '<p class="meta">' + info + '</p></header>' +

@@ -235,3 +235,20 @@ a.pill { text-decoration: none; }
 .to-top svg { width: 18px; height: 18px; }
 .to-top:hover { border-color: var(--muted); }
 .art .lead a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+/* Lọc theo đơn vị */
+.chip-sel { position: relative; display: inline-flex; align-items: center; padding: 0; }
+.chip-sel select { height: 34px; padding: 0 32px 0 16px; border: 0; background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; -webkit-appearance: none; appearance: none; border-radius: 999px; }
+.chip-sel::after { content: ""; position: absolute; right: 14px; top: 50%; width: 7px; height: 7px; margin-top: -5px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); pointer-events: none; }
+.chip-sel.on { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.chip-sel select option { color: #0f1d2e; background: #fff; }
+.nav-dd { position: relative; }
+.nav-dd summary { list-style: none; display: block; padding: 8px 26px 8px 12px; border-radius: 999px; font-size: 14.5px; font-weight: 600; color: var(--muted); cursor: pointer; position: relative; }
+.nav-dd summary::-webkit-details-marker { display: none; }
+.nav-dd summary::after { content: ""; position: absolute; right: 11px; top: 50%; width: 6px; height: 6px; margin-top: -5px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+.nav-dd summary:hover, .nav-dd[open] summary, .nav-dd.cur summary { color: var(--ink); background: var(--soft); }
+.nav-dd .dd { position: absolute; z-index: 40; top: calc(100% + 8px); left: 0; min-width: 240px; display: grid; padding: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 18px 40px -12px rgba(0,0,0,.25); }
+.nav-dd .dd a { padding: 9px 12px; border-radius: 9px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+.nav-dd .dd a:hover, .nav-dd .dd a[aria-current] { background: var(--soft); }
+.crumb .unit { color: var(--muted); }
+.crumb .unit::before { display: none; }
+.sec, [id="moi-nhat"], [id="khoanh-khac"] { scroll-margin-top: 80px; }

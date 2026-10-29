@@ -22,6 +22,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": true,
+    "unit": "",
     "createdAt": "2026-10-27T04:31:09Z"
   },
   {
@@ -42,6 +43,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": false,
+    "unit": "",
     "createdAt": "2026-10-29T01:23:20.973Z"
   },
   {
@@ -62,6 +64,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": false,
+    "unit": "",
     "createdAt": "2026-10-29T01:12:10.630Z"
   },
   {
@@ -81,6 +84,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": false,
+    "unit": "",
     "createdAt": "2026-10-29T03:00:59.695Z"
   },
   {
@@ -101,6 +105,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": true,
+    "unit": "",
     "createdAt": "2026-10-27T04:50:42Z"
   },
   {
@@ -121,6 +126,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": true,
+    "unit": "hong-ngu",
     "createdAt": "2026-10-27T04:31:09Z"
   },
   {
@@ -181,6 +187,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": true,
+    "unit": "",
     "createdAt": "2026-10-27T04:31:09Z"
   },
   {
@@ -205,6 +212,7 @@ window.BAI_VIET = [
       }
     ],
     "featured": true,
+    "unit": "",
     "createdAt": "2026-10-27T12:49:58.413Z"
   }
 ];
