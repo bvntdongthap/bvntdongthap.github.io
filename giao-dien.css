@@ -252,3 +252,19 @@ a.pill { text-decoration: none; }
 .crumb .unit { color: var(--muted); }
 .crumb .unit::before { display: none; }
 .sec, [id="moi-nhat"], [id="khoanh-khac"] { scroll-margin-top: 80px; }
+/* Văn phòng khu vực */
+.offices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 980px) { .offices { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .offices { grid-template-columns: 1fr; } }
+.office { display: flex; flex-direction: column; padding: 22px 22px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--bg); }
+.office h3 { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+.office dl { margin: 14px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; font-size: 14.5px; line-height: 1.5; }
+.office dt { color: var(--muted); font-size: 12.5px; font-weight: 600; padding-top: 2px; white-space: nowrap; }
+.office dd { margin: 0; color: var(--ink); }
+.office dd a { color: var(--brand); }
+.office-act { margin-top: auto; padding-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+.office-act .pill svg { width: 16px; height: 16px; }
+.office-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; margin: -10px 0 24px; padding: 12px 16px; border-radius: 12px; background: var(--soft); font-size: 14px; color: var(--muted); }
+.office-strip:empty { display: none; }
+.office-strip a { color: var(--brand); font-weight: 600; }
+.nav-dd .dd .dd-more { margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line); border-radius: 0 0 9px 9px; color: var(--brand); }

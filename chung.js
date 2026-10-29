@@ -15,6 +15,24 @@ function chipsHTML(muc, unit, active) {
     UNITS.map(function (u) { return '<option value="' + u[0] + '"' + (unit === u[0] ? ' selected' : '') + '>' + esc(u[1]) + '</option>'; }).join('') + '</select></label>';
   return chip('', 'Tất cả') + NAV.slice(0, 3).map(function (n) { return chip(n[0], n[1]); }).join('') + sel + chip(NAV[3][0], NAV[3][1]);
 }
+// ---------- Văn phòng khu vực: địa chỉ, điện thoại, địa bàn, giờ làm việc (người dùng cung cấp 2026-10-29) ----------
+var UNIT_INFO = {"cao-lanh-lap-vo": {"addr": "Tòa nhà Viettel, 267 Ngô Thì Nhậm, Cao Lãnh, Đồng Tháp", "phone": "0277 3854 142", "area": "Cao Lãnh, Lấp Vò, Lai Vung", "hours": "Sáng 7h30 – 12h00 · Chiều 13h30 – 17h00"}, "sa-dec": {"addr": "530 Nguyễn Sinh Sắc, Sa Đéc, Đồng Tháp", "phone": "", "area": "Sa Đéc, Châu Thành, Lai Vung", "hours": "Sáng 7h30 – 12h00 · Chiều 13h30 – 17h00"}, "hong-ngu": {"addr": "115 Phan Bội Châu, Hồng Ngự, Đồng Tháp", "phone": "", "area": "Hồng Ngự", "hours": "Sáng 7h30 – 12h00 · Chiều 13h30 – 17h00"}, "thap-muoi": {"addr": "15B Lê Lợi, Khóm 1, Tháp Mười, Đồng Tháp", "phone": "", "area": "Tháp Mười", "hours": "Sáng 7h30 – 12h00 · Chiều 13h30 – 17h00"}, "thanh-binh": {"addr": "332 Lê Văn Nhung, Khóm Tân Đông, Thanh Bình, Đồng Tháp", "phone": "", "area": "Thanh Bình, Tam Nông", "hours": "Sáng 7h30 – 12h00 · Chiều 13h30 – 17h00"}, "tan-hong": {"addr": "Đường Trần Phú, Khóm 3, Tân Hồng, Đồng Tháp", "phone": "", "area": "Tân Hồng", "hours": "Sáng 7h30 – 12h00 · Chiều 13h30 – 17h00"}};
+var PIN_MAP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+function mapsHref(u) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(UNIT_INFO[u].addr); }
+function telHref(phone) { return 'tel:' + phone.replace(/\D/g, ''); }
+function officeCard(u) {
+  var f = UNIT_INFO[u], row = function (k, v) { return v ? '<dt>' + k + '</dt><dd>' + v + '</dd>' : ''; };
+  return '<article class="office"><h3>' + esc(UNIT[u]) + '</h3><dl>' + row('Địa bàn', esc(f.area)) + row('Địa chỉ', esc(f.addr)) +
+    row('Điện thoại', f.phone ? '<a href="' + telHref(f.phone) + '">' + esc(f.phone) + '</a>' : '') + row('Giờ làm việc', esc(f.hours)) + '</dl>' +
+    '<p class="office-act"><a class="pill" href="' + mapsHref(u) + '" target="_blank" rel="noopener">' + PIN_MAP + '<span>Chỉ đường</span></a><a class="pill" href="' + unitHref(u) + '">Xem tin</a></p></article>';
+}
+function officesHTML() { return UNITS.map(function (u) { return officeCard(u[0]); }).join(''); }
+// Dòng thông tin trên đầu danh sách khi đang lọc theo một đơn vị.
+function officeStrip(u) {
+  var f = UNIT_INFO[u]; if (!f) return '';
+  return '<span>' + esc(f.addr) + '</span>' + (f.phone ? '<a href="' + telHref(f.phone) + '">' + esc(f.phone) + '</a>' : '') + '<span>' + esc(f.hours) + '</span>' +
+    '<a href="' + mapsHref(u) + '" target="_blank" rel="noopener">Chỉ đường</a>';
+}
 // Menu thả xuống "Các VPKV" trên đầu trang: đóng khi bấm ra ngoài hoặc chọn xong.
 function navDdInit() {
   document.addEventListener('click', function (e) {
