@@ -66,21 +66,6 @@ function art(p) {
 function media(p, eager) { var c = p.photos[0]; return c ? '<img src="' + blob(c.id) + '" alt="' + esc(c.caption || p.title) + '"' + (eager ? '' : ' loading="lazy"') + '>' : art(p); }
 function byDateDesc(a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : (a.createdAt < b.createdAt ? 1 : -1); }
 function eventStart(p) { var d = parseD(p.date); if (!d) return null; var t = (p.time || '07:30').split(':'); d.setHours(+t[0], +t[1]); return d; }
-function cardHTML(p) {
-  var fresh = daysFrom(p.date) >= -7 && daysFrom(p.date) <= 0, isUp = p.kind === 'event' && daysFrom(p.date) >= 0;
-  var ribbon = p.sample ? '<span class="ribbon gold">Mẫu</span>' : isUp ? '<span class="ribbon">Sắp tới</span>' : fresh ? '<span class="ribbon">Mới</span>' : '';
-  var facts = p.kind === 'event'
-    ? '<span>' + icon('clock') + esc(p.time ? p.time + (p.timeEnd ? '–' + p.timeEnd : '') : wd(p.date)) + '</span>' + (p.place ? '<span>' + icon('pin') + esc(p.place) + '</span>' : '')
-    : '<span>' + icon('cal') + esc(wd(p.date)) + '</span>' + (p.photos.length ? '<span>' + icon('img') + p.photos.length + ' ảnh</span>' : '') + (p.excerpt ? '' : '');
-  var when = p.kind === 'event' && daysFrom(p.date) >= 0 ? '<em>' + (daysFrom(p.date) === 0 ? 'Hôm nay' : 'Còn ' + daysFrom(p.date) + ' ngày') + '</em>' + esc(fmtD(p.date)) : esc(fmtD(p.date));
-  return '<a href="' + postHref(p.id) + '" class="pcard" data-open="' + esc(p.id) + '"><span class="lab k-' + p.kind + '">' + KIND[p.kind] + '</span>' +
-    '<span class="pic">' + ribbon + media(p) + '<h3>' + vnShort(p.title) + '</h3></span>' +
-    '<span class="facts">' + facts + '</span>' +
-    '<span class="pfoot"><span class="when">' + when + '</span><span class="detail">Xem chi tiết</span></span></a>';
-}
-function itemHTML(p) {
-  return '<a href="' + postHref(p.id) + '" class="item" data-open="' + esc(p.id) + '"><span class="th">' + media(p) + '</span><span><b>' + vnShort(p.title) + '</b><small>' + esc(fmtD(p.date)) + (p.sample ? ' · <span class="t-sample">Mẫu</span>' : '') + '</small>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '') + '</span></a>';
-}
 
 // Nội dung bài: các đoạn cách nhau một dòng trống. Cú pháp định dạng (thanh công cụ chèn sẵn):
 //   **đậm**  *nghiêng*  __gạch chân__  [chữ](https://…)  ## Tiêu đề mục  - danh sách  1. danh sách  > trích dẫn
@@ -140,7 +125,7 @@ function renderBody(p, photos, srcOf) {
 }
 // Ngắt dòng tiêu đề kiểu tiếng Việt: giữ liền các cụm từ (Bảo Việt Nhân Thọ, Bộ Tài chính, trái tim…),
 // số với đơn vị, tên người, từ nối với chữ sau, không để một chữ lẻ ở dòng cuối; ưu tiên ngắt sau dấu gạch/phẩy.
-// Trả về HTML đã esc, dùng thay esc(title) ở mọi tiêu đề; CSS text-wrap: balance chia đều các dòng.
+// Trả về HTML đã esc, dùng thay esc(title) ở mọi tiêu đề; CSS text-wrap: pretty lấp đầy dòng.
 var VN_CUM = ['bảo việt nhân thọ đồng tháp', 'khoảnh khắc', 'tin tức', 'triệu trái tim', 'nhận bằng khen', 'bảo việt nhân thọ', 'bảo việt', 'nhân thọ', 'đồng tháp', 'bộ tài chính', 'tài chính', 'bằng khen', 'tổng công ty', 'công ty',
   'tư vấn viên', 'khách hàng', 'khai trương', 'trụ sở mới', 'trụ sở', 'chương trình', 'tuyển dụng', 'vinh danh', 'vinh dự', 'sự kiện', 'hội nghị',
   'vàng son', 'trái tim', 'chung nhịp', 'phó giám đốc phòng', 'giám đốc phòng', 'phó giám đốc', 'giám đốc', 'hồng ngự', 'cao lãnh', 'sa đéc', 'lập nghiệp', 'thiện nguyện', 'đào tạo',
@@ -201,6 +186,7 @@ function fitPlan(el, text, W, maxLines) {
       if (j < n && /[,–—:;\-]$/.test(chunks[j - 1])) cost -= 0.12;    // ngắt sau dấu câu: đẹp
       if (j < n && /^[-–—]/.test(chunks[j])) cost += 0.5;              // không để dấu gạch mở đầu dòng
       if (j < n && tail[j - 1]) cost -= 0.15;
+      cost *= Math.pow(3, 1 - k);                       // dòng trên nặng ký hơn: lấp đầy dòng 1 trước, rồi dòng 2…
       if (best[k - 1][i] + cost < best[k][j]) { best[k][j] = best[k - 1][i] + cost; from[k][j] = i; }
     }
   }
@@ -229,7 +215,7 @@ function fitBreak(el, maxLines) {
 }
 function fitAll() {
   var narrow = window.innerWidth < 760;
-  document.querySelectorAll('.slide h2').forEach(function (h) { fitBreak(h, 3); });
+  document.querySelectorAll('.hero h1').forEach(function (h) { fitBreak(h, 4); });
   document.querySelectorAll('.art h1').forEach(function (h) { fitBreak(h, narrow ? 5 : 3); });
 }
 (function () {
@@ -238,12 +224,10 @@ function fitAll() {
   addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fitAll, 120); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fitAll(); });
 })();
-function eviHTML(p) {
-  var d = parseD(p.date), n = daysFrom(p.date);
-  return '<a href="' + postHref(p.id) + '" class="evi" data-open="' + esc(p.id) + '"><span class="d"><b>' + pad(d.getDate()) + '</b><span>Th ' + (d.getMonth() + 1) + '</span></span><span><strong>' + esc(p.title) + '</strong><small>' + esc(wd(p.date)) + (p.time ? ' · ' + esc(p.time) : '') + ' · <span class="left">' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') + '</span></small></span></a>';
-}
 // Mỗi bài có trang tĩnh riêng <mã-bài>.html (tạo bằng cong-cu/tao-trang-tinh.js) để Google đọc được.
 function postHref(id) { return encodeURIComponent(id) + '.html'; }
+function mucHref(kind) { return 'index.html?muc=' + kind + '#moi-nhat'; }
+var HOME_HREF = 'index.html';
 function loadPosts() {
   return (Array.isArray(window.BAI_VIET) ? window.BAI_VIET : []).map(function (d, i) { return clean({ id: /^[A-Za-z0-9_-]{1,80}$/.test(d && d.id) ? d.id : 'bai-' + i, data: d }); });
 }
@@ -323,3 +307,107 @@ var Peek = (function () {
   }
   return { init: init, hide: hide };
 })();
+
+// ---------- Giao diện tạp chí: tin chính, thẻ bài, thư viện ảnh, trang bài ----------
+// Chỉ dùng thẻ inline (span) bên trong thẻ bài và lưới, để bộ dựng trang tĩnh thay nội dung theo id an toàn.
+// Mỗi trang tự định nghĩa postHref(id), mucHref(kind), HOME_HREF và blob(id).
+var ICON = {
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>'
+};
+var NAV = [['news', 'Tin tức'], ['event', 'Sự kiện'], ['activity', 'Hoạt động'], ['honor', 'Vinh danh']];
+
+// Ảnh poster hiện trọn (không cắt chữ trên poster); phần trống phủ bằng chính ảnh đó làm mờ.
+function photoBox(p, eager) {
+  var c = p.photos[0];
+  if (!c) return '<span class="ph">' + art(p) + '</span>';
+  var src = esc(blob(c.id)), lazy = eager ? '' : ' loading="lazy"';
+  return '<span class="ph"><img class="blur" src="' + src + '" alt="" aria-hidden="true"' + lazy + '><img class="fg" src="' + src + '" alt="' + esc(c.caption || p.title) + '"' + lazy + '></span>';
+}
+function whenText(p) { return wd(p.date) + ', ' + fmtD(p.date) + (p.time ? ' · ' + p.time + (p.timeEnd ? '–' + p.timeEnd : '') : ''); }
+function card(p) {
+  var n = daysFrom(p.date), soon = p.kind === 'event' && n >= 0;
+  return '<a class="card" href="' + postHref(p.id) + '" data-open="' + esc(p.id) + '">' + photoBox(p) +
+    '<span class="kick k-' + p.kind + '">' + KIND[p.kind] + (soon ? ' · ' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') : '') + (p.sample ? ' · Mẫu' : '') + '</span>' +
+    '<h3>' + vnShort(p.title) + '</h3>' +
+    '<span class="meta"><span>' + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</span>' + (p.photos.length > 1 ? '<span>' + p.photos.length + ' ảnh</span>' : '') + '</span></a>';
+}
+function snippet(p, n) {
+  if (p.excerpt) return p.excerpt;
+  var t = stripMarks(p.body).replace(/\s+/g, ' ').trim();
+  return t.length > n ? t.slice(0, n).replace(/\s\S*$/, '') + '…' : t;
+}
+// Tin chính: sự kiện sắp diễn ra gần nhất, nếu không có thì bài được ghim, rồi tới bài mới nhất.
+function pickTop(posts) {
+  var t = todayISO();
+  var up = posts.filter(function (p) { return p.kind === 'event' && p.date >= t; }).sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : (a.time < b.time ? -1 : 1); })[0];
+  var top = up || posts.filter(function (p) { return p.featured; })[0] || posts[0] || null;
+  return { top: top, up: !!up && top === up };
+}
+function cdHTML(p) {
+  var s = Math.max(0, Math.floor((eventStart(p) - Date.now()) / 1000));
+  return [[Math.floor(s / 86400), 'ngày'], [Math.floor(s / 3600) % 24, 'giờ'], [Math.floor(s / 60) % 60, 'phút'], [s % 60, 'giây']]
+    .map(function (x) { return '<span><b>' + pad(x[0]) + '</b>' + x[1] + '</span>'; }).join('');
+}
+function heroHTML(top, isUp) {
+  if (!top) return '';
+  var info = '<span>' + esc(whenText(top)) + '</span>' + (top.place ? '<span>' + esc(top.place.replace(/\.$/, '')) + '</span>' : '');
+  return '<div class="wrap">' +
+    '<a class="hero-pic" href="' + postHref(top.id) + '" tabindex="-1" aria-hidden="true">' + photoBox(top, true) + '</a>' +
+    '<div class="hero-txt"><span class="kick k-' + top.kind + '">' + (isUp ? 'Sắp diễn ra' : KIND[top.kind]) + '</span>' +
+    '<h1>' + vnHeadline(top.title) + '</h1>' +
+    '<p class="lead">' + esc(snippet(top, 260)) + '</p>' +
+    '<p class="meta stack">' + info + '</p>' +
+    (isUp ? '<p class="cd" id="cd" aria-label="Thời gian còn lại đến sự kiện">' + cdHTML(top) + '</p>' : '') +
+    '<a class="go" href="' + postHref(top.id) + '">Đọc bài ' + ICON.arrow + '</a></div></div>';
+}
+function allPhotos(posts) {
+  var list = [];
+  posts.forEach(function (p) { p.photos.forEach(function (ph) { list.push({ id: ph.id, caption: ph.caption, post: p }); }); });
+  return list;
+}
+// Lưới ảnh: ảnh đầu lớn, số ảnh chọn sao cho các hàng luôn đầy (5, 9, 13…).
+function galCount(n, limit) { var k = Math.min(n, limit); return k < 5 ? k : k - ((k - 5) % 4); }
+function galHTML(photos, limit) {
+  return photos.slice(0, galCount(photos.length, limit)).map(function (ph, i) {
+    return '<button type="button" data-ph="' + i + '" aria-label="Xem ảnh ' + (i + 1) + '"><img src="' + esc(blob(ph.id)) + '" alt="' + esc(ph.caption || ph.post.title) + '" loading="lazy"></button>';
+  }).join('');
+}
+// Trang bài: tiêu đề rộng, cột chữ hẹp dễ đọc, ảnh bìa, lưới ảnh còn lại, bài khác. tools: nút riêng của bản nội bộ (sửa, xoá).
+function postHTML(p, posts, tools) {
+  var rb = renderBody(p, p.photos), rest = [];
+  for (var i = 1; i < p.photos.length; i++) if (!rb.used[i]) rest.push(i);
+  var info = '<span>' + esc(whenText(p)) + '</span>' + (p.place ? '<span>' + esc(p.place.replace(/\.$/, '')) + '</span>' : '') + (p.photos.length > 1 ? '<span>' + p.photos.length + ' ảnh</span>' : '');
+  var others = posts.filter(function (x) { return x.id !== p.id; });
+  var rel = others.filter(function (x) { return x.kind === p.kind; }).concat(others.filter(function (x) { return x.kind !== p.kind; })).slice(0, 3);
+  var c = p.photos[0];
+  return '<article>' +
+    '<header class="art"><nav class="crumb" aria-label="Vị trí"><a href="' + HOME_HREF + '">Trang chủ</a><span aria-hidden="true">/</span><a class="kick k-' + p.kind + '" href="' + mucHref(p.kind) + '">' + KIND[p.kind] + '</a>' + (p.sample ? '<span class="kick">Bài mẫu</span>' : '') + '</nav>' +
+    '<h1' + (p.title.length > 56 ? ' class="long"' : '') + '>' + vnHeadline(p.title) + '</h1>' +
+    (p.excerpt ? '<p class="lead">' + esc(p.excerpt) + '</p>' : '') +
+    '<p class="meta">' + info + '</p></header>' +
+    (c ? '<figure class="cover"><button type="button" data-aphoto="0" aria-label="Xem ảnh lớn">' + photoBox(p, true) + '</button>' + (c.caption ? '<figcaption>' + esc(c.caption) + '</figcaption>' : '') + '</figure>' : '') +
+    (rb.html ? '<div class="prose">' + rb.html + '</div>' : '') +
+    (rest.length ? '<section class="photos" aria-label="Hình ảnh"><h2>Hình ảnh</h2><p class="gal">' + rest.map(function (k) {
+      return '<button type="button" data-aphoto="' + k + '" aria-label="Xem ảnh ' + (k + 1) + '"><img src="' + esc(blob(p.photos[k].id)) + '" alt="' + esc(p.photos[k].caption || p.title) + '" loading="lazy"></button>';
+    }).join('') + '</p></section>' : '') +
+    '<p class="share"><button class="pill" type="button" data-act="copy">' + ICON.link + '<span>Sao chép liên kết</span></button>' + (tools || '') + '</p>' +
+    '</article>' +
+    (rel.length ? '<section class="sec related" aria-labelledby="h-rel"><div class="wrap"><div class="sec-h"><h2 id="h-rel">Bài khác</h2><a class="more" href="' + HOME_HREF + '">Xem tất cả ' + ICON.arrow + '</a></div><div class="grid">' + rel.map(card).join('') + '</div></div></section>' : '');
+}
+function themeInit() {
+  var root = document.documentElement, saved = null;
+  try { saved = localStorage.getItem('bt-theme'); } catch (e) {}
+  if (saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+  $('#b-theme').addEventListener('click', function () {
+    var dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('bt-theme', root.dataset.theme); } catch (e) {}
+  });
+}
+function copyLink(btn) {
+  var label = btn.querySelector('span'), done = function () { label.textContent = 'Đã chép liên kết'; setTimeout(function () { label.textContent = 'Sao chép liên kết'; }, 1800); };
+  if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, function () {}); else done();
+}

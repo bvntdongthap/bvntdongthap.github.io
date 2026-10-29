@@ -22,76 +22,26 @@
 <link rel="icon" type="image/png" href="anh/bieu-tuong.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
-<link rel="stylesheet" href="giao-dien.css?v=ffd7ce20">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="giao-dien.css?v=602f8484">
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <path id="petal" d="M0 0 C -15 -16 -13 -42 0 -58 C 13 -42 15 -16 0 0 Z"/>
-    <g id="lotus"><use href="index.html#petal" class="lo" transform="rotate(-58)"/><use href="index.html#petal" class="lo" transform="rotate(58)"/><use href="index.html#petal" class="lo" transform="rotate(-30)"/><use href="index.html#petal" class="lo" transform="rotate(30)"/><use href="index.html#petal" class="hi" transform="rotate(-12) scale(.86)"/><use href="index.html#petal" class="hi" transform="rotate(12) scale(.86)"/><use href="index.html#petal" class="lo" transform="scale(.95)"/><ellipse class="se" cx="0" cy="-8" rx="9" ry="4"/></g>
-    <g id="bud"><use href="index.html#petal" class="lo" transform="scale(.62,1)"/><use href="index.html#petal" class="hi" transform="translate(3 -4) scale(.3,.82)"/></g>
-    <symbol id="pond" viewBox="0 0 1440 130" preserveAspectRatio="xMidYMax slice">
-      <path class="st" d="M362 130 C 360 110 366 92 362 70 M984 130 C 988 108 980 92 984 64 M1254 130 C 1250 112 1258 96 1254 80 M620 130 C 622 112 616 96 620 82 M1122 130 C 1118 116 1126 100 1122 86 M150 130 C 150 112 156 100 158 92 M1340 130 C 1338 114 1344 104 1346 96"/>
-      <ellipse class="l1" cx="70" cy="122" rx="150" ry="30"/><ellipse class="l1" cx="430" cy="126" rx="170" ry="30"/><ellipse class="l1" cx="820" cy="124" rx="160" ry="30"/><ellipse class="l1" cx="1200" cy="126" rx="180" ry="30"/>
-      <g transform="translate(158 96) rotate(-6)"><ellipse class="l2" rx="62" ry="21"/><ellipse class="rim" rx="62" ry="21"/></g>
-      <g transform="translate(1346 98) rotate(6)"><ellipse class="l2" rx="58" ry="19"/><ellipse class="rim" rx="58" ry="19"/></g>
-      <use href="index.html#lotus" transform="translate(362 72)"/><use href="index.html#lotus" transform="translate(984 66) scale(1.12)"/><use href="index.html#lotus" transform="translate(1254 82) scale(.82)"/>
-      <use href="index.html#bud" transform="translate(620 84)"/><use href="index.html#bud" transform="translate(1122 88) scale(.85)"/>
-      <ellipse class="l2" cx="250" cy="130" rx="140" ry="24"/><ellipse class="l2" cx="640" cy="132" rx="150" ry="24"/><ellipse class="l2" cx="1030" cy="131" rx="150" ry="24"/><ellipse class="l2" cx="1410" cy="131" rx="130" ry="24"/>
-      <ellipse class="l3" cx="520" cy="134" rx="90" ry="16"/><ellipse class="l3" cx="900" cy="134" rx="100" ry="16"/><ellipse class="l3" cx="1300" cy="134" rx="80" ry="15"/><ellipse class="l3" cx="40" cy="134" rx="80" ry="15"/>
-    </symbol>
-    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
-    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
-    <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></symbol>
-    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
-  </defs>
-</svg>
-
-<header>
-  <div class="masthead">
-    <div class="wrap">
-      <a class="brand" href="index.html" aria-label="Bảo Việt Nhân Thọ Đồng Tháp, về đầu trang">
-        <img src="anh/logo.png" alt="Bảo Việt Nhân Thọ" width="520" height="140">
-        <span>Đồng Tháp<br>Bản tin</span>
-      </a>
-      <div class="quick" id="quick" aria-label="Tin nhanh"></div>
-      <div class="mast-side">
-        <span class="today" id="today"></span>
-        <label class="search"><span class="sr">Tìm bài viết</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="q" type="search" placeholder="Tìm tin, sự kiện…" autocomplete="off">
-        </label>
-      </div>
-    </div>
-  </div>
-  <div class="band" aria-hidden="true"></div>
-</header>
-<nav class="menubar" aria-label="Chuyên mục">
+<header class="top">
   <div class="wrap">
-    <div class="menu">
-      <a href="index.html">Trang chủ</a><a href="index.html#sec-news">Tin tức</a><a href="index.html#sec-events">Sự kiện</a><a href="index.html#sec-activity">Hoạt động nội bộ</a><a href="index.html#box-honor">Vinh danh</a><a href="index.html#thu-vien">Thư viện ảnh</a>
-    </div>
+    <a class="brand" href="index.html" aria-label="Bản tin Bảo Việt Nhân Thọ Đồng Tháp, trang chủ"><img src="anh/logo.png" alt="Bảo Việt Nhân Thọ" width="126" height="34"><span><b>Đồng Tháp</b>Bản tin</span></a>
+    <nav class="nav" id="nav" aria-label="Chuyên mục"><a href="index.html?muc=news#moi-nhat">Tin tức</a><a href="index.html?muc=event#moi-nhat">Sự kiện</a><a href="index.html?muc=activity#moi-nhat">Hoạt động</a><a href="index.html?muc=honor#moi-nhat">Vinh danh</a><a href="index.html#khoanh-khac">Thư viện ảnh</a></nav>
+    <div class="tools"><button class="ibtn" type="button" id="b-search" aria-label="Tìm kiếm" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button><button class="ibtn" type="button" id="b-theme" aria-label="Đổi giao diện sáng/tối"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></button></div>
   </div>
-</nav>
+  <div class="accent" aria-hidden="true"></div>
+  <div class="search" id="search"><div class="wrap"><input id="q" type="search" placeholder="Tìm bài viết…" aria-label="Tìm bài viết" autocomplete="off"></div></div>
+</header>
 
-<main class="wrap body">
-  <article class="art" id="art" aria-live="polite"><nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span>›</span><a href="index.html#sec-events">Sự kiện</a></nav><span class="lab k-event">Sự kiện</span><h1>“30 năm vàng son – Triệu trái tim chung nhịp”</h1><div class="meta"><span>Thứ Bảy, 31/10/2026</span><span>Số 267 Ngô Thì Nhậm, phường Cao Lãnh, tỉnh Đồng Tháp.</span></div><figure class="art-cover"><img src="anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/01.jpg" alt="“30 năm vàng son – Triệu trái tim chung nhịp”"></figure><div class="prose"><p class="al-justify">30 năm – một chặng đường đủ dài để một doanh nghiệp nhìn lại những gì mình đã làm được, và cũng đủ để chúng tôi hiểu rằng: thành tựu lớn nhất của Bảo Việt Nhân thọ không chỉ nằm ở những con số, mà nằm trong niềm tin đã được trao gửi và gìn giữ qua thời gian. 30 năm qua, thị trường đã nhiều lần thay đổi. Có những giai đoạn thuận lợi, cũng có những thời điểm đầy thử thách. Nhưng trong bất kỳ hoàn cảnh nào, Bảo Việt Nhân thọ vẫn kiên định với một lý tưởng: lấy khách hàng là trung tâm, lấy uy tín làm nền tảng và lấy sự đồng hành dài hạn làm cam kết. Chính sự kiên định ấy đã giúp chúng tôi vững vàng đi qua những biến động, tiếp tục duy trì vị thế dẫn đầu trên thị trường cho tới ngày hôm nay.</p><figure class="inl"><button type="button" data-aphoto="1" aria-label="Xem ảnh 2"><img src="anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/02.jpg" alt="Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam" loading="lazy"></button><figcaption>Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam</figcaption></figure><p>Chương trình có sự góp mặt của Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam.  <br> Sự xuất hiện của diễn giả hứa hẹn mang đến những góc nhìn chiến lược, tư duy lãnh đạo đột phá và những bài học truyền cảm hứng mạnh mẽ về hành trình phát triển bản thân cũng như sự nghiệp bền vững.</p></div></article>
-  <aside class="side" aria-label="Thanh bên">
-    <section class="box"><h3>Bài mới đăng</h3><div id="side-latest"></div></section>
-    <section class="box k-ev"><h3>Sắp diễn ra</h3><div id="side-events"></div></section>
-  </aside>
-</main>
-<section class="wrap related sec" id="related" hidden>
-  <div class="sec-bar"><h2><i></i><span id="related-title">Bài khác</span></h2><a class="more-link" href="index.html">Về trang chủ</a></div>
-  <div class="grid3" id="related-grid"></div>
-</section>
+<main id="bai"><article><header class="art"><nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span aria-hidden="true">/</span><a class="kick k-event" href="index.html?muc=event#moi-nhat">Sự kiện</a></nav><h1>“30 năm vàng son – Triệu trái tim chung nhịp”</h1><p class="meta"><span>Thứ Bảy, 31/10/2026</span><span>Số 267 Ngô Thì Nhậm, phường Cao Lãnh, tỉnh Đồng Tháp</span><span>2 ảnh</span></p></header><figure class="cover"><button type="button" data-aphoto="0" aria-label="Xem ảnh lớn"><span class="ph"><img class="blur" src="anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/01.jpg" alt="" aria-hidden="true"><img class="fg" src="anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/01.jpg" alt="“30 năm vàng son – Triệu trái tim chung nhịp”"></span></button></figure><div class="prose"><p class="al-justify">30 năm – một chặng đường đủ dài để một doanh nghiệp nhìn lại những gì mình đã làm được, và cũng đủ để chúng tôi hiểu rằng: thành tựu lớn nhất của Bảo Việt Nhân thọ không chỉ nằm ở những con số, mà nằm trong niềm tin đã được trao gửi và gìn giữ qua thời gian. 30 năm qua, thị trường đã nhiều lần thay đổi. Có những giai đoạn thuận lợi, cũng có những thời điểm đầy thử thách. Nhưng trong bất kỳ hoàn cảnh nào, Bảo Việt Nhân thọ vẫn kiên định với một lý tưởng: lấy khách hàng là trung tâm, lấy uy tín làm nền tảng và lấy sự đồng hành dài hạn làm cam kết. Chính sự kiên định ấy đã giúp chúng tôi vững vàng đi qua những biến động, tiếp tục duy trì vị thế dẫn đầu trên thị trường cho tới ngày hôm nay.</p><figure class="inl"><button type="button" data-aphoto="1" aria-label="Xem ảnh 2"><img src="anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/02.jpg" alt="Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam" loading="lazy"></button><figcaption>Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam</figcaption></figure><p>Chương trình có sự góp mặt của Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam.  <br> Sự xuất hiện của diễn giả hứa hẹn mang đến những góc nhìn chiến lược, tư duy lãnh đạo đột phá và những bài học truyền cảm hứng mạnh mẽ về hành trình phát triển bản thân cũng như sự nghiệp bền vững.</p></div><p class="share"><button class="pill" type="button" data-act="copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span>Sao chép liên kết</span></button></p></article><section class="sec related" aria-labelledby="h-rel"><div class="wrap"><div class="sec-h"><h2 id="h-rel">Bài khác</h2><a class="more" href="index.html">Xem tất cả <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><div class="grid"><a class="card" href="20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi.html" data-open="20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi"><span class="ph"><img class="blur" src="anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/01.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fg" src="anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/01.jpg" alt="Bảo Việt Nhân thọ Đồng Tháp khai trương trụ sở mới" loading="lazy"></span><span class="kick k-event">Sự kiện</span><h3>Bảo Việt Nhân thọ Đồng Tháp khai trương trụ sở mới</h3><span class="meta"><span>Chủ Nhật, 25/10/2026</span><span>8 ảnh</span></span></a><a class="card" href="20261013-bao-viet-nhan-tho-dong-thap-vinh-du-nhan-bang-khen.html" data-open="20261013-bao-viet-nhan-tho-dong-thap-vinh-du-nhan-bang-khen"><span class="ph"><img class="blur" src="anh/20261013-bao-viet-nhan-tho-dong-thap-vinh-du-nhan-bang-khen/01.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fg" src="anh/20261013-bao-viet-nhan-tho-dong-thap-vinh-du-nhan-bang-khen/01.jpg" alt="Bằng khen của  Bộ Tài Chính cho Bảo Việt Đồng Tháp hoàn thành xuất sắc nhiệm vụ 2024-2025" loading="lazy"></span><span class="kick k-event">Sự kiện</span><h3>BẢO VIỆT NHÂN THỌ ĐỒNG THÁP VINH DỰ NHẬN BẰNG KHEN BỘ TÀI CHÍNH</h3><span class="meta"><span>Thứ Ba, 13/10/2026</span><span>2 ảnh</span></span></a><a class="card" href="20261027-chuong-trinh-boss-tuyen-dung.html" data-open="20261027-chuong-trinh-boss-tuyen-dung"><span class="ph"><img class="blur" src="anh/20261027-chuong-trinh-boss-tuyen-dung/01.jpg" alt="" aria-hidden="true" loading="lazy"><img class="fg" src="anh/20261027-chuong-trinh-boss-tuyen-dung/01.jpg" alt="Chương trình BOSS tuyển dụng" loading="lazy"></span><span class="kick k-activity">Hoạt động</span><h3>Chương trình BOSS tuyển dụng</h3><span class="meta"><span>Thứ Ba, 27/10/2026</span></span></a></div></div></section></main>
 
-<footer>
-  <div class="band" aria-hidden="true"></div>
+<footer class="foot">
   <div class="wrap">
     <div><strong>Công ty Bảo Việt Nhân Thọ Đồng Tháp</strong>Bản tin hoạt động của đơn vị.</div>
-    <nav aria-label="Liên kết cuối trang"><a href="index.html#sec-news">Tin tức</a><a href="index.html#sec-events">Sự kiện</a><a href="index.html#sec-activity">Hoạt động</a><a href="index.html#thu-vien">Thư viện ảnh</a></nav>
+    <nav aria-label="Liên kết cuối trang"><a href="index.html?muc=news#moi-nhat">Tin tức</a><a href="index.html?muc=event#moi-nhat">Sự kiện</a><a href="index.html?muc=activity#moi-nhat">Hoạt động</a><a href="index.html?muc=honor#moi-nhat">Vinh danh</a><a href="index.html#khoanh-khac">Thư viện ảnh</a></nav>
   </div>
 </footer>
 
@@ -104,62 +54,33 @@
     <button class="lb-nav lb-next" type="button" id="lb-next" aria-label="Ảnh sau">›</button>
   </div>
 </dialog>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>window.BAI_ID = "20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip";</script>
 <script src="du-lieu/bai-viet.js?v=5c3ef2df"></script>
-<script src="chung.js?v=cea88425"></script>
+<script src="chung.js?v=b0faa90d"></script>
 <script>
 (function () {
-  var posts = loadPosts(), byId = {};
+  var posts = loadPosts().sort(byDateDesc), byId = {};
   posts.forEach(function (p) { byId[p.id] = p; });
   // Trang tĩnh của bài gán window.BAI_ID; link cũ dạng bai.html?id=… thì chuyển sang trang tĩnh.
   var id = window.BAI_ID || new URLSearchParams(location.search).get('id') || '';
   var p = byId[id];
   if (!window.BAI_ID && p) { location.replace(postHref(id)); return; }
-  var sorted = posts.slice().sort(byDateDesc), t = todayISO();
-  setToday(); initLightbox();
-  Peek.init(function (k) { return byId[k]; });
-
-  // Ô tìm kiếm: Enter thì sang trang chủ với từ khoá.
-  $('#q').addEventListener('keydown', function (e) { if (e.key === 'Enter' && this.value.trim()) location.href = 'index.html?q=' + encodeURIComponent(this.value.trim()); });
-  $('#quick').innerHTML = sorted.slice(0, 4).map(function (x, i) { return '<a href="' + postHref(x.id) + '" data-open="' + esc(x.id) + '"><b>' + (i + 1) + '.</b>' + esc(x.title) + '</a>'; }).join('');
-  var others = sorted.filter(function (x) { return x !== p; });
-  $('#side-latest').innerHTML = others.length ? others.slice(0, 5).map(itemHTML).join('') : '<p class="empty-s">Chưa có bài khác.</p>';
-  var up = posts.filter(function (x) { return x.kind === 'event' && x.date >= t && x !== p; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-  $('#side-events').innerHTML = up.length ? up.slice(0, 4).map(eviHTML).join('') : '<p class="empty-s">Chưa có sự kiện sắp tới khác.</p>';
-
-  if (!p) {
-    document.title = 'Không tìm thấy bài – Bản tin BVNT Đồng Tháp';
-    $('#art').innerHTML = '<nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a></nav><h1>Không tìm thấy bài viết</h1><p class="lead">Bài có thể đã được gỡ hoặc đường dẫn bị sai.</p><div class="art-tools"><a class="btn btn-primary" href="index.html">Về trang chủ</a></div>';
-    return;
-  }
-  document.title = p.title + ' – Bản tin BVNT Đồng Tháp';
-  var sec = { news: 'sec-news', honor: 'box-honor', event: 'sec-events', activity: 'sec-activity' }[p.kind];
-  var on = document.querySelector('.menu a[href="index.html#' + sec + '"]'); if (on) on.classList.add('on');
+  themeInit();
+  var box = $('#search'), q = $('#q');
+  $('#b-search').addEventListener('click', function () { var on = box.classList.toggle('on'); this.setAttribute('aria-expanded', on); if (on) q.focus(); });
+  q.addEventListener('keydown', function (e) { if (e.key === 'Enter' && q.value.trim()) location.href = 'index.html?q=' + encodeURIComponent(q.value.trim()) + '#moi-nhat'; });
+  if (!p) { $('#bai').innerHTML = '<header class="art"><h1>Không tìm thấy bài viết</h1><p class="lead">Bài có thể đã được gỡ. <a href="index.html">Về trang chủ</a></p></header>'; return; }
+  document.querySelectorAll('#nav a').forEach(function (a) { if (a.getAttribute('href').indexOf('muc=' + p.kind + '#') > 0) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('#bai').innerHTML = postHTML(p, posts);
   var photos = p.photos.map(function (ph) { return { id: ph.id, caption: ph.caption, post: p }; });
-  var rb = renderBody(p, photos), rest = photos.map(function (_, i) { return i; }).filter(function (i) { return i > 0 && !rb.used[i]; }); // ảnh bìa đã hiện ở đầu bài
-  var info = p.kind === 'event' ? '<dl class="info"><div><dt>Ngày</dt><dd>' + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</dd></div>' + (p.time ? '<div><dt>Thời gian</dt><dd>' + esc(p.time) + (p.timeEnd ? ' – ' + esc(p.timeEnd) : '') + '</dd></div>' : '') + (p.place ? '<div><dt>Địa điểm</dt><dd>' + esc(p.place) + '</dd></div>' : '') + '</dl>' : '';
-  var cover = photos.length ? '<button type="button" data-aphoto="0" aria-label="Xem ảnh lớn"><img src="' + blob(photos[0].id) + '" alt="' + esc(photos[0].caption || p.title) + '"></button>' : art(p);
-  $('#art').innerHTML =
-    '<nav class="crumb" aria-label="Vị trí"><a href="index.html">Trang chủ</a><span>›</span><a href="index.html#' + sec + '">' + KIND[p.kind] + '</a></nav>' +
-    '<span class="lab k-' + p.kind + '">' + KIND[p.kind] + '</span>' + (p.sample ? ' <span class="t-sample">Mẫu</span>' : '') +
-    '<h1' + (p.title.length > 56 ? ' class="long"' : '') + '>' + vnHeadline(p.title) + '</h1>' +
-    '<div class="meta"><span>' + icon('cal') + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</span>' + (p.place ? '<span>' + icon('pin') + esc(p.place) + '</span>' : '') + (photos.length ? '<span>' + icon('img') + photos.length + ' ảnh</span>' : '') + '</div>' +
-    info + '<figure class="art-cover">' + cover + (photos.length && photos[0].caption ? '<figcaption>' + esc(photos[0].caption) + '</figcaption>' : '') + '</figure>' +
-    (p.excerpt ? '<p class="lead">' + esc(p.excerpt) + '</p>' : '') +
-    (rb.html ? '<div class="prose">' + rb.html + '</div>' : '') +
-    (rest.length && photos.length > 1 ? '<div class="reader-photos">' + rest.map(function (i) { var ph = photos[i]; return '<button type="button" data-aphoto="' + i + '" aria-label="Xem ảnh ' + (i + 1) + '"><img src="' + blob(ph.id) + '" alt="' + esc(ph.caption) + '" loading="lazy"></button>'; }).join('') + '</div>' : '') +
-    '<div class="art-tools"><a class="btn btn-line" href="index.html">← Về trang chủ</a><button class="btn btn-primary" type="button" id="copy-link">Sao chép liên kết bài</button></div>';
-  fitAll();
-  document.addEventListener('click', function (e) { var b = e.target.closest('[data-aphoto]'); if (b) openLB(photos, +b.dataset.aphoto, p.id); });
-  $('#copy-link').addEventListener('click', function () {
-    var url = location.href.split('#')[0];
-    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { toast('Đã sao chép liên kết bài'); }, function () { prompt('Sao chép liên kết:', url); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-aphoto]'); if (b) return openLB(photos, +b.dataset.aphoto, p.id);
+    var c = e.target.closest('[data-act="copy"]'); if (c) copyLink(c);
   });
-  var rel = others.filter(function (x) { return x.kind === p.kind; });
-  if (rel.length < 3) rel = rel.concat(others.filter(function (x) { return x.kind !== p.kind; }));
-  if (rel.length) { $('#related').hidden = false; $('#related-title').textContent = 'Bài khác'; $('#related-grid').innerHTML = rel.slice(0, 3).map(cardHTML).join(''); }
+  initLightbox();
+  Peek.init(function (x) { return byId[x]; });
+  fitAll();
 })();
 </script>
 </body>
