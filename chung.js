@@ -231,6 +231,13 @@ var HOME_HREF = 'index.html';
 function loadPosts() {
   return (Array.isArray(window.BAI_VIET) ? window.BAI_VIET : []).map(function (d, i) { return clean({ id: /^[A-Za-z0-9_-]{1,80}$/.test(d && d.id) ? d.id : 'bai-' + i, data: d }); });
 }
+// Album ảnh (du-lieu/album.js, window.ALBUM) do công cụ đồng bộ sinh từ bản nội bộ.
+function loadAlbums() {
+  return (Array.isArray(window.ALBUM) ? window.ALBUM : []).map(function (a) {
+    return { id: String(a.id || ''), name: String(a.name || 'Album').slice(0, 120), pinned: !!a.pinned, createdAt: String(a.createdAt || ''),
+      photos: (Array.isArray(a.photos) ? a.photos : []).filter(function (x) { return x && okId(x.src); }).map(function (x) { return { id: x.src, caption: String(x.caption || '').slice(0, 200) }; }) };
+  }).filter(function (a) { return a.id && a.photos.length; });
+}
 function setToday() { var now = new Date(); var el = $('#today'); if (el) el.textContent = WD[now.getDay()] + ', ' + pad(now.getDate()) + '/' + pad(now.getMonth() + 1) + '/' + now.getFullYear(); }
 
 // ---------- Xem ảnh lớn ----------
@@ -240,7 +247,7 @@ function openLB(list, i, current) { lb.list = list; lb.i = i; lb.current = curre
 function showLB() {
   var ph = lb.list[lb.i]; if (!ph) return;
   $('#lb-img').src = blob(ph.id); $('#lb-img').alt = ph.caption || ph.post.title;
-  $('#lb-cap').innerHTML = '<div>' + esc(ph.caption || '') + '</div><div class="num" style="opacity:.7">' + (lb.i + 1) + ' / ' + lb.list.length + ' · ' + esc(ph.post.title) + '</div>' + (ph.post.id !== lb.current ? '<a href="' + postHref(ph.post.id) + '">Đọc bài viết</a>' : '');
+  $('#lb-cap').innerHTML = '<div>' + esc(ph.caption || '') + '</div><div class="num" style="opacity:.7">' + (lb.i + 1) + ' / ' + lb.list.length + ' · ' + esc(ph.album || ph.post.title) + '</div>' + (ph.post.id && ph.post.id !== lb.current ? '<a href="' + postHref(ph.post.id) + '">Đọc bài viết</a>' : '');
   $('#lb-prev').hidden = $('#lb-next').hidden = lb.list.length < 2;
 }
 function stepLB(d) { lb.i = (lb.i + d + lb.list.length) % lb.list.length; showLB(); }
@@ -411,4 +418,19 @@ function themeInit() {
 function copyLink(btn) {
   var label = btn.querySelector('span'), done = function () { label.textContent = 'Đã chép liên kết'; setTimeout(function () { label.textContent = 'Sao chép liên kết'; }, 1800); };
   if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, function () {}); else done();
+}
+// ---------- Album ảnh trong Khoảnh khắc: album ghim đứng trước, rồi tới album mới tạo ----------
+var PIN_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.6 2.6l5.8 5.8-2.1.7-3.6 3.6.7 4.9-1.9 1.9-3.9-3.9-5.3 5.3-1.2-1.2 5.3-5.3-3.9-3.9 1.9-1.9 4.9.7 3.6-3.6z"/></svg>';
+function sortAlbums(list) { return list.slice().sort(function (a, b) { return (b.pinned - a.pinned) || (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0); }); }
+function defaultAlbum(albums) { var p = sortAlbums(albums).filter(function (a) { return a.pinned; })[0]; return p ? p.id : ''; }
+// Ảnh lấy từ bài thì vẫn dẫn được về bài đó khi xem ảnh lớn.
+function albumPhotos(al, posts) {
+  var by = {};
+  posts.forEach(function (p) { p.photos.forEach(function (ph) { by[ph.id] = p; }); });
+  return al.photos.map(function (ph) { return { id: ph.id, caption: ph.caption, post: by[ph.id] || { id: '', title: al.name }, album: al.name }; });
+}
+function albumChipsHTML(albums, cur) {
+  return '<button class="chip" type="button" data-album="" aria-pressed="' + !cur + '">Tất cả ảnh</button>' + sortAlbums(albums).map(function (a) {
+    return '<button class="chip" type="button" data-album="' + esc(a.id) + '" aria-pressed="' + (cur === a.id) + '"' + (a.pinned ? ' title="Album được ghim"' : '') + '>' + (a.pinned ? PIN_ICON : '') + esc(a.name) + '<span class="n">' + a.photos.length + '</span></button>';
+  }).join('');
 }
