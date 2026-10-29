@@ -1,2 +1,59 @@
 // Tự sinh bằng dong-bo.py. Không sửa tay file này.
-window.ALBUM = [];
+window.ALBUM = [
+  {
+    "id": "huan-chuong-lao-dong-276z",
+    "name": "Huân Chương Lao Động",
+    "pinned": false,
+    "createdAt": "2026-10-29T01:45:40.577Z",
+    "photos": [
+      {
+        "src": "anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/01.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261031-30-nam-vang-son-trieu-trai-tim-chung-nhip/02.jpg",
+        "caption": "Thạc sĩ / Diễn giả Nguyễn Đức Thắng – Chủ tịch HĐQT First Step, Chủ tịch GAMA GLOBAL Việt Nam"
+      }
+    ]
+  },
+  {
+    "id": "anh-khai-truong-cong-ty-bao-viet-nhan-th-euqr",
+    "name": "Ảnh Khai Trương Công Ty Bảo Việt Nhân Thọ Đồng Tháp",
+    "pinned": true,
+    "createdAt": "2026-10-29T01:45:19.344Z",
+    "photos": [
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/01.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/02.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/03.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/04.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/05.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/06.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/07.jpg",
+        "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/08.jpg",
+        "caption": ""
+      }
+    ]
+  }
+];

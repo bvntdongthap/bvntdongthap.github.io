@@ -74,7 +74,8 @@
     "photos": [
       {
         "src": "anh/20261027-chuong-trinh-boss-tuyen-dung/01.jpg",
-        "caption": ""
+        "caption": "Anh Trần Quang Vinh (Trái) - Giám Đốc PKD3, Anh Nguyễn Minh Trí (Phải) - Giám Đốc PKD1",
+        "cover": true
       }
     ],
     "featured": true,
