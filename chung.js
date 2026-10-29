@@ -21,7 +21,7 @@ function toast(msg) { var t = $('#toast'); t.textContent = msg; t.classList.add(
 function clean(p) {
   var d = p.data || {};
   var kind = KIND[d.kind] ? d.kind : 'news';
-  var photos = Array.isArray(d.photos) ? d.photos.filter(function (x) { return x && okId(x.src); }).slice(0, 200).map(function (x) { return { id: x.src, caption: String(x.caption || '').slice(0, 200) }; }) : [];
+  var photos = Array.isArray(d.photos) ? d.photos.filter(function (x) { return x && okId(x.src); }).slice(0, 200).map(function (x) { return { id: x.src, caption: String(x.caption || '').slice(0, 200), cover: !!x.cover }; }) : [];
   return { id: p.id, kind: kind, title: String(d.title || 'Chưa có tiêu đề').slice(0, 200), excerpt: String(d.excerpt || '').slice(0, 400), body: String(d.body || '').slice(0, 20000),
     date: parseD(d.date) ? d.date : todayISO(), time: /^\d{2}:\d{2}$/.test(d.time) ? d.time : '', timeEnd: /^\d{2}:\d{2}$/.test(d.timeEnd) ? d.timeEnd : '',
     place: String(d.place || '').slice(0, 200), photos: photos, featured: !!d.featured, sample: !!d.sample, createdAt: String(d.createdAt || '') };
@@ -63,7 +63,7 @@ function art(p) {
   return '<svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="' + gid + '" cx=".36" cy=".3" r=".78"><stop offset="0" stop-color="#f6e2a8"/><stop offset=".5" stop-color="#b48b34"/><stop offset="1" stop-color="#4e3a0c"/></radialGradient></defs>' +
     '<rect width="480" height="300" fill="' + bg + '"/><circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="url(#' + gid + ')"/>' + s + '</svg>';
 }
-function media(p, eager) { var c = p.photos[0]; return c ? '<img src="' + blob(c.id) + '" alt="' + esc(c.caption || p.title) + '"' + (eager ? '' : ' loading="lazy"') + '>' : art(p); }
+function media(p, eager) { var c = coverOf(p) || p.photos[0]; return c ? '<img src="' + blob(c.id) + '" alt="' + esc(c.caption || p.title) + '"' + (eager ? '' : ' loading="lazy"') + '>' : art(p); }
 function byDateDesc(a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : (a.createdAt < b.createdAt ? 1 : -1); }
 function eventStart(p) { var d = parseD(p.date); if (!d) return null; var t = (p.time || '07:30').split(':'); d.setHours(+t[0], +t[1]); return d; }
 
@@ -320,8 +320,10 @@ var ICON = {
 var NAV = [['news', 'Tin tức'], ['event', 'Sự kiện'], ['activity', 'Hoạt động'], ['honor', 'Vinh danh']];
 
 // Ảnh poster hiện trọn (không cắt chữ trên poster); phần trống phủ bằng chính ảnh đó làm mờ.
+// Ảnh bìa: ảnh được tick “Làm ảnh bìa” khi đăng bài; không tick thì thẻ bài dùng ảnh đầu, trang bài không hiện ảnh to ở đầu.
+function coverOf(p) { for (var i = 0; i < p.photos.length; i++) if (p.photos[i].cover) return p.photos[i]; return null; }
 function photoBox(p, eager) {
-  var c = p.photos[0];
+  var c = coverOf(p) || p.photos[0];
   if (!c) return '<span class="ph">' + art(p) + '</span>';
   var src = esc(blob(c.id)), lazy = eager ? '' : ' loading="lazy"';
   return '<span class="ph"><img class="blur" src="' + src + '" alt="" aria-hidden="true"' + lazy + '><img class="fg" src="' + src + '" alt="' + esc(c.caption || p.title) + '"' + lazy + '></span>';
@@ -377,18 +379,17 @@ function galHTML(photos, limit) {
 }
 // Trang bài: tiêu đề rộng, cột chữ hẹp dễ đọc, ảnh bìa, lưới ảnh còn lại, bài khác. tools: nút riêng của bản nội bộ (sửa, xoá).
 function postHTML(p, posts, tools) {
-  var rb = renderBody(p, p.photos), rest = [];
-  for (var i = 1; i < p.photos.length; i++) if (!rb.used[i]) rest.push(i);
+  var rb = renderBody(p, p.photos), rest = [], c = coverOf(p), ci = p.photos.indexOf(c);
+  for (var i = 0; i < p.photos.length; i++) if (!rb.used[i] && i !== ci) rest.push(i);
   var info = '<span>' + esc(whenText(p)) + '</span>' + (p.place ? '<span>' + esc(p.place.replace(/\.$/, '')) + '</span>' : '') + (p.photos.length > 1 ? '<span>' + p.photos.length + ' ảnh</span>' : '');
   var others = posts.filter(function (x) { return x.id !== p.id; });
   var rel = others.filter(function (x) { return x.kind === p.kind; }).concat(others.filter(function (x) { return x.kind !== p.kind; })).slice(0, 3);
-  var c = p.photos[0];
   return '<article>' +
     '<header class="art"><nav class="crumb" aria-label="Vị trí"><a href="' + HOME_HREF + '">Trang chủ</a><span aria-hidden="true">/</span><a class="kick k-' + p.kind + '" href="' + mucHref(p.kind) + '">' + KIND[p.kind] + '</a>' + (p.sample ? '<span class="kick">Bài mẫu</span>' : '') + '</nav>' +
     '<h1' + (p.title.length > 56 ? ' class="long"' : '') + '>' + vnHeadline(p.title) + '</h1>' +
     (p.excerpt ? '<p class="lead">' + esc(p.excerpt) + '</p>' : '') +
     '<p class="meta">' + info + '</p></header>' +
-    (c ? '<figure class="cover"><button type="button" data-aphoto="0" aria-label="Xem ảnh lớn">' + photoBox(p, true) + '</button>' + (c.caption ? '<figcaption>' + esc(c.caption) + '</figcaption>' : '') + '</figure>' : '') +
+    (c ? '<figure class="cover"><button type="button" data-aphoto="' + ci + '" aria-label="Xem ảnh lớn">' + photoBox(p, true) + '</button>' + (c.caption ? '<figcaption>' + esc(c.caption) + '</figcaption>' : '') + '</figure>' : '') +
     (rb.html ? '<div class="prose">' + rb.html + '</div>' : '') +
     (rest.length ? '<section class="photos" aria-label="Hình ảnh"><h2>Hình ảnh</h2><p class="gal">' + rest.map(function (k) {
       return '<button type="button" data-aphoto="' + k + '" aria-label="Xem ảnh ' + (k + 1) + '"><img src="' + esc(blob(p.photos[k].id)) + '" alt="' + esc(p.photos[k].caption || p.title) + '" loading="lazy"></button>';
