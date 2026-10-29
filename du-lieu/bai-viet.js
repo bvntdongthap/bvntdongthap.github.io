@@ -95,7 +95,8 @@ window.BAI_VIET = [
     "photos": [
       {
         "src": "anh/20261025-chuc-mung-anh-tran-quang-vinh-pho-giam-doc-phong-p/01.jpg",
-        "caption": ""
+        "caption": "Anh Trần Quang Vinh - Giám đốc PKD3",
+        "cover": true
       }
     ],
     "featured": true,
@@ -107,7 +108,7 @@ window.BAI_VIET = [
     "title": "Bảo Việt Nhân Thọ Đồng Tháp khai trương trụ sở mới",
     "date": "2026-10-25",
     "excerpt": "",
-    "body": "[đều] Bảo Việt Nhân thọ Đồng Tháp thành lập năm 2000, là đơn vị cung cấp các giải pháp bảo vệ tài chính, chăm sóc sức khỏe và tích lũy dài hạn. Qua 26 năm hình thành và phát triển, đến nay, đơn vị đang bảo vệ cho 80.000 khách hàng, chi trả quyền lợi bảo hiểm với số tiền trên 650 tỷ đồng.\nĐơn vị hiện có 22 cán bộ, nhân viên và hơn 1.000 tư vấn viên. Việc khai trương trụ sở mới đánh dấu bước phát triển mới trong việc hoàn thiện cơ sở vật chất, nâng cao điều kiện làm việc và chất lượng phục vụ khách hàng.\nPhát biểu tại buổi lễ, đồng chí Hồ Huệ Thu Hằng, Phó Chủ tịch UBND phường Cao Lãnh chúc mừng công ty đưa trụ sở mới vào hoạt động, đồng thời ghi nhận những đóng góp trong hoạt động kinh doanh và an sinh xã hội, đồng hành cùng địa phương trong các hoạt động vì cộng đồng.\nDịp này, Tổng công ty Bảo Việt Nhân thọ trao tặng 20 xe đạp thuộc chương trình “Quỹ xe đạp chở ước mơ” cho học sinh Trường Tiểu học Tịnh Thới.",
+    "body": "[đều] Bảo Việt Nhân thọ Đồng Tháp thành lập năm 2000, là đơn vị cung cấp các giải pháp bảo vệ tài chính, chăm sóc sức khỏe và tích lũy dài hạn. Qua 26 năm hình thành và phát triển, đến nay, đơn vị đang bảo vệ cho 80.000 khách hàng, chi trả quyền lợi bảo hiểm với số tiền trên 650 tỷ đồng.\n\n[ảnh 11]\n\n[đều] Đơn vị hiện có 22 cán bộ, nhân viên và hơn 1.000 tư vấn viên. Việc khai trương trụ sở mới đánh dấu bước phát triển mới trong việc hoàn thiện cơ sở vật chất, nâng cao điều kiện làm việc và chất lượng phục vụ khách hàng.\n\n[ảnh 9]\n\nPhát biểu tại buổi lễ, đồng chí Hồ Huệ Thu Hằng, Phó Chủ tịch UBND phường Cao Lãnh chúc mừng công ty đưa trụ sở mới vào hoạt động, đồng thời ghi nhận những đóng góp trong hoạt động kinh doanh và an sinh xã hội, đồng hành cùng địa phương trong các hoạt động vì cộng đồng.\n\nDịp này, Tổng công ty Bảo Việt Nhân thọ trao tặng 20 xe đạp thuộc chương trình “Quỹ xe đạp chở ước mơ” cho học sinh Trường Tiểu học Tịnh Thới.",
     "time": "",
     "timeEnd": "",
     "place": "",
@@ -143,6 +144,18 @@ window.BAI_VIET = [
       {
         "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/08.jpg",
         "caption": ""
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/09.jpg",
+        "caption": "Bà Hồ Huệ Thu Hằng, Phó Chủ tịch UBND phường Cao Lãnh"
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/10.jpg",
+        "caption": "Đại diện lãnh đạo Bảo Việt Đồng Tháp trao tặng xe đạp theo chương trình “Quỹ xe đạp chở ước mơ”"
+      },
+      {
+        "src": "anh/20261025-bao-viet-nhan-tho-dong-thap-khai-truong-tru-so-moi/11.jpg",
+        "caption": "Ông Trần Anh Tú GĐ Công Ty Bảo Việt Nhân Thọ Đồng Tháp phát biểu tại chương trình"
       }
     ],
     "featured": true,
