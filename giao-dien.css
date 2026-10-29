@@ -227,3 +227,11 @@ dialog#lightbox::backdrop { background: transparent; }
 [hidden] { display: none !important; }
 .gal.few { grid-auto-rows: 220px; }
 .gal.few button:first-child { grid-column: auto; grid-row: auto; }
+/* Chia sẻ, Xem thêm bài, Lên đầu trang */
+.share-l { font-weight: 600; }
+.share .pill svg { width: 18px; height: 18px; }
+a.pill { text-decoration: none; }
+.to-top { position: fixed; z-index: 35; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); box-shadow: 0 8px 24px rgba(0,0,0,.16); cursor: pointer; }
+.to-top svg { width: 18px; height: 18px; }
+.to-top:hover { border-color: var(--muted); }
+.art .lead a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }

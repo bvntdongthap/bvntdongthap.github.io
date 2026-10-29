@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="giao-dien.css?v=90fd9b16">
+<link rel="stylesheet" href="giao-dien.css?v=eca9548c">
 </head>
 <body>
 <header class="top">
@@ -48,8 +48,8 @@
   </div>
 </dialog>
 
-<script src="du-lieu/bai-viet.js?v=d2145c5d"></script>
-<script src="chung.js?v=aa535b6d"></script>
+<script src="du-lieu/bai-viet.js?v=58f1670a"></script>
+<script src="chung.js?v=11e778ec"></script>
 <script>
 (function () {
   var posts = loadPosts().sort(byDateDesc), byId = {};
@@ -68,9 +68,9 @@
   var photos = p.photos.map(function (ph) { return { id: ph.id, caption: ph.caption, post: p }; });
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-aphoto]'); if (b) return openLB(photos, +b.dataset.aphoto, p.id);
-    var c = e.target.closest('[data-act="copy"]'); if (c) copyLink(c);
+    var z = e.target.closest('[data-act="zalo"]'); if (z) shareZalo(z);
   });
-  initLightbox();
+  initLightbox(); toTopInit();
   Peek.init(function (x) { return byId[x]; });
   fitAll();
 })();
