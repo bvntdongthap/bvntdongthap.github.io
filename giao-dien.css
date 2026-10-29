@@ -130,11 +130,22 @@ a.hero-pic:hover .fg { transform: scale(1.02); }
 @media (max-width: 700px) { .gal { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 140px; } }
 
 /* ---------- Cuối trang ---------- */
-.foot { margin-top: 24px; padding: 40px 0 48px; background: var(--soft); font-size: 14px; color: var(--muted); }
-.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
-.foot strong { display: block; color: var(--ink); font-size: 15px; }
-.foot nav { display: flex; flex-wrap: wrap; gap: 20px; }
-.foot nav a:hover { color: var(--ink); }
+/* Cuối trang: giới thiệu, liên hệ, chuyên mục; dải dưới cùng ghi bản quyền và người thiết kế. */
+.foot { margin-top: 24px; padding: 48px 0 0; background: var(--soft); font-size: 14px; color: var(--muted); }
+.foot-grid { display: grid; grid-template-columns: 1.1fr 1.6fr 1fr; gap: 32px 48px; padding-bottom: 36px; }
+.foot strong { display: block; color: var(--ink); font-size: 16px; }
+.foot p { margin-top: 8px; line-height: 1.6; }
+.foot .foot-note { font-size: 13px; }
+.foot h2 { margin-bottom: 12px; color: var(--ink); font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.foot-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; line-height: 1.5; }
+.foot-list span { display: block; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; opacity: .75; }
+.foot a { color: var(--ink); }
+.foot a:hover { color: var(--brand); }
+.foot-nav { display: grid; gap: 10px; }
+.foot-nav a { color: var(--muted); }
+.foot-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 18px; padding-bottom: 28px; border-top: 1px solid var(--line); font-size: 13px; }
+@media (max-width: 860px) { .foot-grid { grid-template-columns: 1fr 1fr; } .foot-brand { grid-column: 1 / -1; } }
+@media (max-width: 560px) { .foot-grid { grid-template-columns: 1fr; } }
 
 /* ---------- Trang bài ---------- */
 /* Trang bài một cột: tiêu đề, ảnh bìa, nội dung, ảnh đều cùng bề ngang. */
