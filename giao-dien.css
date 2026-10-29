@@ -6,7 +6,7 @@
   --k-news: #0678ad; --k-event: #b1265a; --k-activity: #2b7148; --k-honor: #9a7424;
   --header: rgba(255,255,255,.86); --plate: transparent;
   --font: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
-  --gut: max(20px, env(safe-area-inset-left, 0px));
+  --gut: max(20px, env(safe-area-inset-left, 0px)); --col: 800px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
@@ -71,9 +71,11 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Tin chính ---------- */
 .hero { padding: 44px 0 56px; }
-.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: center; }
-.hero-pic { display: block; }
-.hero .ph { aspect-ratio: 4 / 3; box-shadow: 0 30px 60px -30px rgba(8,53,83,.35); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; align-items: stretch; }
+.hero-txt { align-self: center; }
+.hero-pic { display: block; height: 100%; }
+/* Ảnh tin chính cao bằng khối chữ bên cạnh: hai cột cân nhau. */
+.hero .ph { height: 100%; min-height: 340px; box-shadow: 0 30px 60px -30px rgba(8,53,83,.35); }
 .hero h1 { margin: 16px 0 14px; font-size: clamp(30px, 3.4vw, 46px); line-height: 1.14; font-weight: 800; letter-spacing: -.02em; }
 .hero h1 .ln { display: block; }
 .hero .lead { font-size: 17.5px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
@@ -85,7 +87,7 @@ button { font: inherit; color: inherit; }
 .go:hover { transform: translateX(2px); }
 .go svg { width: 16px; height: 16px; }
 a.hero-pic:hover .fg { transform: scale(1.02); }
-@media (max-width: 900px) { .hero { padding: 24px 0 40px; } .hero .wrap { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 900px) { .hero { padding: 24px 0 40px; } .hero .wrap { grid-template-columns: 1fr; gap: 24px; } .hero .ph { height: auto; min-height: 0; aspect-ratio: 4 / 3; } }
 
 /* ---------- Khu bài ---------- */
 .sec { padding: 56px 0; border-top: 1px solid var(--line); }
@@ -101,13 +103,20 @@ a.hero-pic:hover .fg { transform: scale(1.02); }
 .grid.g2 .card h3 { font-size: 22px; }
 @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .grid, .grid.g2 { grid-template-columns: 1fr; gap: 32px; } .sec { padding: 40px 0; } .sec-h h2 { font-size: 24px; } }
-.card { display: block; }
-.card .ph { aspect-ratio: 16 / 11; }
+/* Thẻ bài: ảnh, nhãn, tiêu đề, hai dòng tóm tắt, ngày; ngày luôn nằm đáy thẻ nên các thẻ cùng hàng thẳng nhau. */
+.card { display: flex; flex-direction: column; }
+.card .ph { aspect-ratio: 3 / 2; }
 .card:hover .fg { transform: scale(1.03); }
 .card .kick { margin-top: 16px; }
 .card h3 { margin-top: 8px; font-size: 19px; line-height: 1.35; font-weight: 700; letter-spacing: -.01em; text-wrap: pretty; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; transition: color .15s; }
 .card:hover h3 { color: var(--brand); }
-.card .meta { margin-top: 10px; font-size: 13.5px; }
+/* Tiêu đề thẻ hiện đủ, không cắt: cắt dòng làm dấu chồng của chữ in hoa (Ả, Ỗ) ló lên thành chấm lạ. */
+.card h3 { flex: none; display: block; overflow: visible; -webkit-line-clamp: unset; }
+.card .sn { flex: none; max-height: calc(2 * 1.55em); }
+.grid.g2 .card .sn { max-height: calc(3 * 1.55em); }
+.card .sn { margin-top: 8px; font-size: 15px; line-height: 1.55; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.grid.g2 .card .sn { -webkit-line-clamp: 3; }
+.card .meta { margin-top: auto; padding-top: 12px; font-size: 13.5px; }
 .empty { padding: 40px 0; color: var(--muted); }
 
 /* ---------- Khoảnh khắc (thư viện ảnh) ---------- */
@@ -128,22 +137,22 @@ a.hero-pic:hover .fg { transform: scale(1.02); }
 .foot nav a:hover { color: var(--ink); }
 
 /* ---------- Trang bài ---------- */
-.art { max-width: 920px; margin: 0 auto; padding: 40px var(--gut) 0; }
+/* Trang bài một cột: tiêu đề, ảnh bìa, nội dung, ảnh đều cùng bề ngang. */
+.art { max-width: calc(var(--col) + 2 * var(--gut)); margin: 0 auto; padding: 40px var(--gut) 0; }
 .crumb { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--muted); }
 .crumb a:hover { color: var(--ink); }
 .crumb .kick + .kick { color: var(--gold); }
 .art h1 { margin: 16px 0 0; font-size: clamp(30px, 4vw, 44px); line-height: 1.16; font-weight: 800; letter-spacing: -.02em; }
 .art h1 .ln { display: block; }
-.art h1.long { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.2; }
-.art .lead { max-width: 760px; }
+.art h1.long { font-size: clamp(26px, 2.8vw, 34px); line-height: 1.22; }
 .art .lead { margin-top: 18px; font-size: 20px; line-height: 1.55; color: var(--muted); }
 .art .meta { margin-top: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
-.cover { max-width: 1080px; margin: 32px auto 0; padding: 0 var(--gut); }
+.cover { max-width: calc(var(--col) + 2 * var(--gut)); margin: 32px auto 0; padding: 0 var(--gut); }
 .cover button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 .cover .ph { aspect-ratio: 16 / 10; border-radius: 18px; }
 .cover { display: block; }
 .cover figcaption, .prose figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); text-align: center; }
-.prose { max-width: 680px; margin: 40px auto 0; padding: 0 var(--gut); font-size: 18px; line-height: 1.75; }
+.prose { max-width: calc(var(--col) + 2 * var(--gut)); margin: 40px auto 0; padding: 0 var(--gut); font-size: 18px; line-height: 1.75; }
 .prose p { margin: 0 0 1.15em; }
 .prose p.al-center { text-align: center; } .prose p.al-right { text-align: right; } .prose p.al-justify { text-align: justify; }
 .prose h2.sub { margin: 1.6em 0 .6em; font-size: 24px; line-height: 1.3; font-weight: 800; letter-spacing: -.01em; }
@@ -157,9 +166,9 @@ a.hero-pic:hover .fg { transform: scale(1.02); }
 .prose .inl-row { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 10px; margin: 1.8em 0; }
 .prose .inl-row figure.inl { margin: 0; }
 .prose .inl-row img { aspect-ratio: 1; object-fit: cover; }
-.photos { max-width: 1080px; margin: 48px auto 0; padding: 0 var(--gut); }
+.photos { max-width: calc(var(--col) + 2 * var(--gut)); margin: 48px auto 0; padding: 0 var(--gut); }
 .photos h2 { font-size: 22px; font-weight: 800; margin-bottom: 18px; }
-.share { max-width: 680px; margin: 40px auto 0; flex-wrap: wrap; padding: 24px var(--gut) 0; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.share { max-width: calc(var(--col) + 2 * var(--gut)); margin: 40px auto 0; flex-wrap: wrap; padding: 24px var(--gut) 0; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
 .pill { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer; }
 .pill:hover { border-color: var(--muted); }
 .pill svg { width: 16px; height: 16px; }

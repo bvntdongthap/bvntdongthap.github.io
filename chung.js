@@ -340,12 +340,16 @@ function card(p) {
   var n = daysFrom(p.date), soon = p.kind === 'event' && n >= 0;
   return '<a class="card" href="' + postHref(p.id) + '" data-open="' + esc(p.id) + '">' + photoBox(p) +
     '<span class="kick k-' + p.kind + '">' + KIND[p.kind] + (soon ? ' · ' + (n === 0 ? 'Hôm nay' : n === 1 ? 'Ngày mai' : 'Còn ' + n + ' ngày') : '') + (p.sample ? ' · Mẫu' : '') + '</span>' +
-    '<h3>' + vnShort(p.title) + '</h3>' +
+    '<h3>' + vnShort(p.title) + '</h3>' + (snippet(p, 200) ? '<span class="sn">' + esc(snippet(p, 200)) + '</span>' : '') +
     '<span class="meta"><span>' + esc(wd(p.date)) + ', ' + esc(fmtD(p.date)) + '</span>' + (p.photos.length > 1 ? '<span>' + p.photos.length + ' ảnh</span>' : '') + '</span></a>';
 }
+// Bỏ dòng đầu nội dung nếu nó chỉ nhắc lại tiêu đề (bài Facebook hay mở đầu bằng tiêu đề kèm biểu tượng).
+function sameText(a, b) { var f = function (s) { return s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ''); }; a = f(a); b = f(b); return !!a && !!b && (a.indexOf(b) === 0 || b.indexOf(a) === 0); }
 function snippet(p, n) {
   if (p.excerpt) return p.excerpt;
-  var t = stripMarks(p.body).replace(/\s+/g, ' ').trim();
+  var lines = stripMarks(p.body).split('\n').filter(function (l) { return l.trim(); });
+  if (lines.length > 1 && sameText(lines[0], p.title)) lines.shift();
+  var t = lines.join(' ').replace(/\s+/g, ' ').trim();
   return t.length > n ? t.slice(0, n).replace(/\s\S*$/, '') + '…' : t;
 }
 // Tin chính: sự kiện sắp diễn ra gần nhất, nếu không có thì bài được ghim, rồi tới bài mới nhất.
