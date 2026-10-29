@@ -319,3 +319,48 @@ a.pill { text-decoration: none; }
 .cb-input button:disabled { opacity: .4; cursor: not-allowed; }
 .cb-input button svg { width: 18px; height: 18px; }
 .cb-foot { margin: 0; padding: 0 12px 10px; font-size: 11.5px; color: var(--muted); text-align: center; }
+/* Bé Sen – linh vật chatbot */
+.sen { display: block; width: 100%; height: 100%; overflow: visible; }
+.sen-shadow { fill: #000; opacity: .12; transform-box: fill-box; transform-origin: center; animation: sen-shadow 3.2s ease-in-out infinite; }
+.sen-body { animation: sen-float 3.2s ease-in-out infinite; }
+.sen-p { transform-box: view-box; transform-origin: 60px 72px; animation: sen-sway 4s ease-in-out infinite alternate; }
+.sen-p1, .sen-p3 { animation-delay: -1.2s; } .sen-p2, .sen-p4 { animation-direction: alternate-reverse; } .sen-p5 { animation-duration: 3s; }
+.sen-eyes { transform-box: fill-box; transform-origin: center; animation: sen-blink 4.6s infinite; }
+.sen-arm-r { transform-box: view-box; transform-origin: 84px 81px; animation: sen-wave 5s ease-in-out infinite; }
+.sen-arm-l { transform-box: view-box; transform-origin: 36px 81px; animation: sen-arm 3.2s ease-in-out infinite; }
+.sen-mouth { transform-box: fill-box; transform-origin: center top; }
+.sen-spark path { fill: #f7c948; transform-box: fill-box; transform-origin: center; animation: sen-twinkle 2.4s ease-in-out infinite; }
+.sen-spark .sen-s2 { animation-delay: -1.2s; }
+.sen-talk .sen-mouth { animation: sen-talk .32s ease-in-out infinite alternate; }
+.sen-talk .sen-body { animation-duration: 1.4s; }
+@keyframes sen-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes sen-shadow { 0%, 100% { transform: scaleX(1); opacity: .14; } 50% { transform: scaleX(.82); opacity: .08; } }
+@keyframes sen-sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes sen-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.12); } }
+@keyframes sen-wave { 0%, 55%, 100% { transform: rotate(0); } 62% { transform: rotate(-28deg); } 70% { transform: rotate(6deg); } 78% { transform: rotate(-28deg); } 86% { transform: rotate(4deg); } }
+@keyframes sen-arm { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(8deg); } }
+@keyframes sen-twinkle { 0%, 100% { opacity: .2; transform: scale(.6); } 50% { opacity: 1; transform: scale(1.1); } }
+@keyframes sen-talk { from { transform: scaleY(1); } to { transform: scaleY(1.9) translateY(-.5px); } }
+
+/* Nút mở chat: bé Sen trong vòng tròn, bên cạnh có lời chào */
+.cb-fab { padding: 0; width: 72px; height: 72px; border-radius: 50%; background: #fff; box-shadow: 0 16px 34px -10px rgba(226,85,138,.55), 0 0 0 3px rgba(255,255,255,.9), 0 0 0 5px #f9c2d4; justify-content: center; }
+.cb-fab .sen { width: 64px; height: 64px; margin-top: 2px; }
+.cb-fab:hover { transform: translateY(-3px) scale(1.04); }
+.cb-fab::after { content: ""; position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 0 2px #fff; }
+.cb-hi { position: fixed; z-index: 44; right: calc(max(18px, env(safe-area-inset-right, 0px)) + 84px); bottom: calc(max(18px, env(safe-area-inset-bottom, 0px)) + 14px); max-width: 230px; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.45; box-shadow: 0 14px 30px -10px rgba(0,0,0,.3), 0 0 0 1px var(--line); cursor: pointer; animation: cb-hi .35s cubic-bezier(.2,.9,.3,1.3) both; }
+.cb-hi b { color: #e2558a; }
+.cb-hi button { position: absolute; top: -8px; left: -8px; width: 22px; height: 22px; border: 0; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 13px; line-height: 22px; cursor: pointer; }
+@keyframes cb-hi { from { opacity: 0; transform: translateY(8px) scale(.9); } }
+.has-cb .to-top { bottom: calc(max(16px, env(safe-area-inset-bottom, 0px)) + 86px); }
+@media (max-width: 600px) { .cb-fab { width: 62px; height: 62px; } .cb-fab .sen { width: 56px; height: 56px; } .cb-hi { right: calc(max(18px, env(safe-area-inset-right, 0px)) + 72px); max-width: 190px; font-size: 13px; } }
+
+/* Đầu khung chat và tin nhắn của Sen */
+.cb-head { background: linear-gradient(135deg, #e2558a, #b8336a 55%, #0b4e7a); }
+.cb-ava { width: 46px; height: 46px; padding: 2px; background: #fff; box-shadow: 0 0 0 2px #f9c2d4; overflow: visible; }
+.cb-who small::before { background: #3ddc84; }
+.cb-row { display: flex; gap: 8px; align-items: flex-end; align-self: flex-start; max-width: 92%; }
+.cb-row .cb-face { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px #f9c2d4; padding: 1px; }
+.cb-row .cb-col { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.cb-row .cb-msg { max-width: 100%; }
+.cb-row .cb-typing { align-self: flex-start; }
+@media (prefers-reduced-motion: reduce) { .sen *, .cb-hi { animation: none !important; } }

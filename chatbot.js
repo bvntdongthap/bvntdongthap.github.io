@@ -17,13 +17,45 @@ var CHATBOT_HOTLINE = '0277 3854 142';
     go: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
   };
   var tel = 'tel:' + CHATBOT_HOTLINE.replace(/\D/g, '');
+  // Bé Sen – linh vật của chatbot: búp sen hồng có khuôn mặt, chớp mắt, lắc cánh, vẫy tay, nhún nhảy.
+  var senN = 0;
+  function sen(cls) {
+    var k = 'sen' + (++senN);
+    return '<svg class="sen ' + (cls || '') + '" viewBox="0 0 120 120" aria-hidden="true"><defs>' +
+      '<linearGradient id="' + k + 'p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd0e1"/><stop offset=".55" stop-color="#ff8db4"/><stop offset="1" stop-color="#e2558a"/></linearGradient>' +
+      '<radialGradient id="' + k + 'f" cx=".42" cy=".38" r=".75"><stop offset="0" stop-color="#fffdf8"/><stop offset="1" stop-color="#ffe6d2"/></radialGradient></defs>' +
+      '<ellipse class="sen-shadow" cx="60" cy="113" rx="28" ry="3.6"/>' +
+      '<g class="sen-body">' +
+        '<g class="sen-petals">' +
+          '<path class="sen-p sen-p3" d="M60 74C36 72 18 52 19 34c17 5 33 21 41 40z" fill="url(#' + k + 'p)"/>' +
+          '<path class="sen-p sen-p4" d="M60 74c24-2 42-22 41-40-17 5-33 21-41 40z" fill="url(#' + k + 'p)"/>' +
+          '<path class="sen-p sen-p1" d="M60 70C40 60 33 31 45 15c11 13 17 34 15 55z" fill="url(#' + k + 'p)"/>' +
+          '<path class="sen-p sen-p2" d="M60 70c20-10 27-39 15-55-11 13-17 34-15 55z" fill="url(#' + k + 'p)"/>' +
+          '<path class="sen-p sen-p5" d="M60 66c-8-17-7-44 0-58 7 14 8 41 0 58z" fill="#ffa8c8"/>' +
+        '</g>' +
+        '<ellipse cx="60" cy="98" rx="37" ry="10.5" fill="#2f7a48"/>' +
+        '<path d="M60 98L60 88.5" stroke="#2f7a48" stroke-width="3"/>' +
+        '<ellipse cx="60" cy="96" rx="33" ry="8" fill="#4f9f63"/>' +
+        '<path d="M34 96.5q26 6 52 0" fill="none" stroke="#8fd19e" stroke-width="2" stroke-linecap="round" opacity=".8"/>' +
+        '<path class="sen-arm-l" d="M37 82c-9 3-15-2-14-8 7-1 12 2 14 8z" fill="#5fae73"/>' +
+        '<path class="sen-arm-r" d="M83 82c9 3 15-2 14-8-7-1-12 2-14 8z" fill="#5fae73"/>' +
+        '<circle cx="60" cy="71" r="24" fill="url(#' + k + 'f)" stroke="#f4cdb0" stroke-width="1.4"/>' +
+        '<circle cx="60" cy="47.5" r="3.2" fill="#f2c14e"/>' +
+        '<g class="sen-eyes"><ellipse cx="51" cy="69" rx="3.5" ry="4.4" fill="#3b2a2c"/><ellipse cx="69" cy="69" rx="3.5" ry="4.4" fill="#3b2a2c"/>' +
+          '<circle cx="52.4" cy="67.2" r="1.3" fill="#fff"/><circle cx="70.4" cy="67.2" r="1.3" fill="#fff"/></g>' +
+        '<ellipse cx="44.5" cy="77" rx="4.6" ry="2.7" fill="#ff8fb0" opacity=".55"/><ellipse cx="75.5" cy="77" rx="4.6" ry="2.7" fill="#ff8fb0" opacity=".55"/>' +
+        '<path class="sen-mouth" d="M55 78q5 5.5 10 0" fill="none" stroke="#c4456f" stroke-width="2.3" stroke-linecap="round"/>' +
+      '</g>' +
+      '<g class="sen-spark"><path d="M101 21l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path class="sen-s2" d="M17 25l1.5 3.6 3.6 1.4-3.6 1.4-1.5 3.6-1.4-3.6-3.6-1.4 3.6-1.4z"/></g>' +
+      '</svg>';
+  }
 
   var fab = document.createElement('button');
-  fab.type = 'button'; fab.className = 'cb-fab'; fab.setAttribute('aria-label', 'Mở khung hỗ trợ');
-  fab.innerHTML = '<span class="cb-dot" aria-hidden="true"></span>' + I.chat + '<span>Cần hỗ trợ?</span>';
+  fab.type = 'button'; fab.className = 'cb-fab'; fab.setAttribute('aria-label', 'Trò chuyện với Sen BVL DTH');
+  fab.innerHTML = sen();
   var box = document.createElement('section');
-  box.className = 'cb'; box.hidden = true; box.setAttribute('aria-label', 'Khung hỗ trợ Bảo Việt Nhân Thọ Đồng Tháp');
-  box.innerHTML = '<header class="cb-head"><span class="cb-ava" aria-hidden="true">BV</span><span class="cb-who"><b>Bảo Việt Nhân Thọ Đồng Tháp</b><small>Phản hồi trong giờ làm việc</small></span>' +
+  box.className = 'cb'; box.hidden = true; box.setAttribute('aria-label', 'Trò chuyện với Sen BVL DTH – trợ lý Bảo Việt Nhân Thọ Đồng Tháp');
+  box.innerHTML = '<header class="cb-head"><span class="cb-ava" aria-hidden="true">' + sen('cb-head-sen') + '</span><span class="cb-who"><b>Sen BVL DTH</b><small>Trợ lý Bảo Việt Nhân Thọ Đồng Tháp</small></span>' +
     '<a class="cb-hb" href="' + tel + '" title="Gọi ' + CHATBOT_HOTLINE + '" aria-label="Gọi ' + CHATBOT_HOTLINE + '">' + I.tel + '</a>' +
     '<button class="cb-hb" type="button" data-cb="again" title="Bắt đầu lại" aria-label="Bắt đầu lại">' + I.again + '</button>' +
     '<button class="cb-hb" type="button" data-cb="close" title="Thu nhỏ" aria-label="Thu nhỏ">' + I.x + '</button></header>' +
@@ -40,9 +72,22 @@ var CHATBOT_HOTLINE = '0277 3854 142';
 
   function down() { log.scrollTop = log.scrollHeight; }
   function add(html, cls) { var d = document.createElement('div'); d.className = cls; d.innerHTML = html; log.appendChild(d); down(); return d; }
+  // Sen "gõ" một chút rồi trả lời; tin nhắn của Sen đi kèm khuôn mặt bé Sen, miệng cử động khi đang gõ.
+  var headSen = null;
   function say(lines, then) {
-    var t = add('<i></i><i></i><i></i>', 'cb-typing');
-    setTimeout(function () { t.remove(); [].concat(lines).forEach(function (l) { typeof l === 'string' ? add(l, 'cb-msg cb-bot') : add(l.html, 'cb-card'); }); if (then) then(); }, 600);
+    var row = add('<span class="cb-face">' + sen('sen-talk') + '</span><span class="cb-col"><span class="cb-typing"><i></i><i></i><i></i></span></span>', 'cb-row');
+    var col = row.querySelector('.cb-col');
+    headSen = headSen || box.querySelector('.cb-head-sen'); headSen.classList.add('sen-talk');
+    setTimeout(function () {
+      col.innerHTML = ''; row.querySelector('.sen').classList.remove('sen-talk'); headSen.classList.remove('sen-talk');
+      [].concat(lines).forEach(function (l) {
+        var d = document.createElement('div');
+        if (typeof l === 'string') { d.className = 'cb-msg cb-bot'; d.innerHTML = l; col.appendChild(d); }
+        else { d.className = 'cb-card'; d.innerHTML = l.html; log.appendChild(d); }
+      });
+      if (!col.children.length) row.remove();   // chỉ có thẻ thông tin: bỏ khuôn mặt trống
+      down(); if (then) then();
+    }, 700);
   }
   function me(t) { add(esc(t), 'cb-msg cb-me'); }
   function quick(opts, onPick) {
@@ -60,7 +105,7 @@ var CHATBOT_HOTLINE = '0277 3854 142';
 
   function start() {
     data = {}; log.innerHTML = ''; qk.innerHTML = ''; lock();
-    say(['Xin chào anh/chị! Em là trợ lý của Bảo Việt Nhân Thọ Đồng Tháp.', 'Anh/chị cần hỗ trợ việc gì ạ?'], function () {
+    say(['Xin chào anh/chị! Em là <b>Sen</b> – trợ lý nhỏ của Bảo Việt Nhân Thọ Đồng Tháp.', 'Anh/chị cần Sen hỗ trợ việc gì ạ?'], function () {
       quick(NEEDS, function (i, v) { data.need = v; askUnit(); });
     });
   }
@@ -132,7 +177,18 @@ var CHATBOT_HOTLINE = '0277 3854 142';
       .catch(function () { fail(); });
   }
 
-  fab.addEventListener('click', function () { box.hidden = false; fab.hidden = true; if (!log.children.length) start(); });
+  // Lời chào nhỏ cạnh bé Sen sau vài giây (mỗi phiên xem chỉ hiện một lần).
+  var hi = null, seen = false;
+  try { seen = sessionStorage.getItem('cb-hi') === '1'; } catch (e) {}
+  if (!seen) setTimeout(function () {
+    if (!box.hidden) return;
+    hi = document.createElement('div'); hi.className = 'cb-hi';
+    hi.innerHTML = '<button type="button" aria-label="Đóng lời chào">×</button>Chào anh/chị! Em là <b>Sen BVL DTH</b>. Cần tư vấn hay ứng tuyển, cứ hỏi Sen nha!';
+    document.body.appendChild(hi);
+    hi.addEventListener('click', function (e) { closeHi(); if (!e.target.closest('button')) fab.click(); });
+  }, 3500);
+  function closeHi() { if (hi) { hi.remove(); hi = null; } try { sessionStorage.setItem('cb-hi', '1'); } catch (e) {} }
+  fab.addEventListener('click', function () { closeHi(); box.hidden = false; fab.hidden = true; if (!log.children.length) start(); });
   box.addEventListener('click', function (e) {
     var b = e.target.closest('[data-cb]'); if (!b) return;
     if (b.dataset.cb === 'close') { box.hidden = true; fab.hidden = false; } else start();
