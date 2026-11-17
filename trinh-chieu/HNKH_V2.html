@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="vi">
-<head><meta name="robots" content="noindex,nofollow">
+<head>
+<meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>V2 · Hội nghị khách hàng · Bảo Việt Nhân Thọ</title>
@@ -3960,11 +3961,11 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
     const base=location.href.split('#')[0].split('?')[0];
     const pv=document.createElement('div');pv.id='pv';
     pv.innerHTML=`<div class="pv-main"><div class="pv-lb">ĐANG CHIẾU <span id="pv-cnt"></span></div><div class="pv-frame"><iframe id="pv-cur" src="${base}?tinh&embed"></iframe></div>
-      <div class="pv-ctl"><button id="pv-prev">‹ Trước</button><button id="pv-next" class="pri">Tiếp ›</button><span class="pv-tip">← → / bút: chuyển trang · F hoặc bấm đúp: phóng toàn màn hình laptop · kéo thanh giữa để chỉnh kích thước · Ctrl/⌘ + / − : cỡ chữ ghi chú</span></div>
+      <div class="pv-ctl"><button id="pv-prev">‹ Trước</button><button id="pv-next" class="pri">Tiếp ›</button><span class="pv-tip">← → / bút: chuyển trang · F hoặc bấm đúp: phóng toàn màn hình laptop · kéo thanh giữa để chỉnh kích thước · Ctrl/⌘ + / − : cỡ chữ ghi chú · K: chạy/dừng chữ · 0–4: chế độ · [ ]: chậm/nhanh</span></div>
       <div class="pv-lb">CHỌN TRANG <span>bấm nhãn để chuyển ngay tới trang đó</span></div><div class="pv-pages" id="pv-pages"></div></div>
       <div class="pv-split" id="pv-split" title="Kéo để chỉnh kích thước · bấm đúp để về mặc định"><span></span></div>
       <div class="pv-side"><div class="pv-lb">TIẾP THEO <span id="pv-nlb"></span></div><div class="pv-frame sm"><iframe id="pv-nxt" src="${base}?tinh&embed"></iframe><div id="pv-end" hidden>Hết bài trình chiếu</div></div>
-      <div class="pv-lb">GHI CHÚ</div><div id="pv-notes" class="pv-notes">Đang kết nối với cửa sổ trình chiếu…</div>
+      <div class="pv-lb tp-head">GHI CHÚ <span id="tp-bar"><b>Chạy chữ:</b><button data-m="off" title="phím 0">Tắt</button><button data-m="cham" title="phím 1">Chậm</button><button data-m="vua" title="phím 2">Vừa</button><button data-m="nhanh" title="phím 3">Nhanh</button><button data-m="giong" title="phím 4 · tự tính tốc độ theo độ dài lời nói (~150 chữ/phút)">Theo giọng nói</button><button data-k="-" title="phím [">−</button><button data-k="+" title="phím ]">+</button><button data-a="pp" title="phím K hoặc bấm vào ghi chú">⏯</button><button data-a="top" title="về đầu">⤒</button><i id="tp-st"></i></span></div><div id="pv-notes" class="pv-notes">Đang kết nối với cửa sổ trình chiếu…</div>
       <div class="pv-time"><div><small>Thời gian</small><b id="pv-el">00:00</b><button id="pv-rs">Đặt lại</button></div><div><small>Đồng hồ</small><b id="pv-clock"></b></div></div></div>`;
     document.body.appendChild(pv);
     const st=document.createElement('style');st.textContent=`html,body{background:#0f172a!important;overflow:hidden}
@@ -3981,7 +3982,7 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
       #pv-end{position:absolute;inset:0;display:grid;place-items:center;background:#1e293b;color:#94a3b8;font-size:20px}#pv-end[hidden]{display:none}
       .pv-notes{flex:1;min-height:0;overflow:auto;white-space:pre-line;background:#1e293b;border-radius:12px;padding:16px 18px;font-size:22px;line-height:1.5;color:#f1f5f9}
       .pv-ctl{display:flex;align-items:center;gap:12px}.pv-ctl button,.pv-time button{font:600 18px "Be Vietnam Pro",sans-serif;padding:12px 22px;border-radius:10px;border:1px solid #475569;background:#1e293b;color:#fff;cursor:pointer}
-      .pv-ctl .pri{background:#1f5ad0;border-color:#1f5ad0}.pv-ctl button{white-space:nowrap;flex:none}.pv-ctl{flex-wrap:wrap}.pv-tip{font-size:14px;color:#94a3b8}
+      .tp-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}#tp-bar{display:flex;align-items:center;gap:4px;flex-wrap:wrap;letter-spacing:0}#tp-bar b{font-weight:600;color:#94a3b8;margin:0 4px 0 6px}#tp-bar button{font:600 13px 'Be Vietnam Pro',sans-serif;padding:5px 10px;border-radius:8px;border:1px solid #475569;background:#1e293b;color:#cbd5e1;cursor:pointer}#tp-bar button.on{background:#f5a623;border-color:#f5a623;color:#10294d}#tp-st{font-style:normal;color:#fbbf24;margin-left:6px;font-size:13px}.pv-notes.tp-on{padding-bottom:45vh;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 7%,#000 88%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 7%,#000 88%,transparent 100%);cursor:pointer}.pv-ctl .pri{background:#1f5ad0;border-color:#1f5ad0}.pv-ctl button{white-space:nowrap;flex:none}.pv-ctl{flex-wrap:wrap}.pv-tip{font-size:14px;color:#94a3b8}
       .pv-time{display:flex;gap:16px}.pv-time>div{flex:1;background:#1e293b;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px}
       .pv-pages{display:flex;flex-wrap:wrap;gap:6px;max-height:30vh;overflow:auto;padding:2px}
       .pv-pg{font:600 14px "Be Vietnam Pro",sans-serif;padding:7px 11px;border-radius:9px;border:1px solid #475569;background:#1e293b;color:#e2e8f0;cursor:pointer;white-space:nowrap}
@@ -4006,7 +4007,39 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
       addEventListener('keydown',e=>{if(!(e.ctrlKey||e.metaKey))return;if(e.key==='='||e.key==='+'){fs=Math.min(48,fs+2)}else if(e.key==='-'){fs=Math.max(14,fs-2)}else return;
         e.preventDefault();nt.style.fontSize=fs+'px';try{localStorage.setItem('hnkh-pv-notes',fs)}catch(_){}});
     })();
-    const $=id=>document.getElementById(id);const op=window.opener;let bc=null;try{bc=new BroadcastChannel('hnkh-pv')}catch(_){}
+        // Lần 28: CHẠY CHỮ ghi chú (nhắc lời) – tự cuộn lên từ từ, nhiều chế độ
+    (function(){
+      const nt=document.getElementById('pv-notes');if(!nt)return;
+      const M={off:0,cham:16,vua:28,nhanh:44};let mode='off',k=1,pos=0,last=null,holdTo=0,paused=false,t0=0,auto=0,cur='';
+      try{mode=localStorage.getItem('hnkh-tp-mode')||'off';k=+localStorage.getItem('hnkh-tp-k')||1}catch(_){}
+      const bar=document.getElementById('tp-bar'),st=document.getElementById('tp-st');
+      const save=()=>{try{localStorage.setItem('hnkh-tp-mode',mode);localStorage.setItem('hnkh-tp-k',k)}catch(_){}};
+      const max=()=>Math.max(0,nt.scrollHeight-nt.clientHeight);
+      function speed(){if(mode==='off')return 0;if(mode==='giong'){return auto*k}return M[mode]*k}
+      function calcAuto(){const w=(cur.replace(/\[[^\]]*\]/g,' ').match(/\S+/g)||[]).length;const sec=Math.max(20,w/150*60);auto=max()/sec}
+      function ui(){bar.querySelectorAll('[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===mode));
+        nt.classList.toggle('tp-on',mode!=='off');
+        st.textContent=mode==='off'?'cuộn tay':(paused?'⏸ tạm dừng':'▶ '+(mode==='giong'?'theo giọng nói ':'')+'×'+k.toFixed(2).replace(/\.?0+$/,''))}
+      window.__tpSet=function(txt){if(txt===cur)return;cur=txt;nt.textContent=txt;nt.scrollTop=0;pos=0;holdTo=performance.now()+2200;setTimeout(calcAuto,60)};
+      bar.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;e.stopPropagation();
+        if(b.dataset.m){mode=b.dataset.m;paused=false;pos=nt.scrollTop;calcAuto()}
+        else if(b.dataset.k){k=Math.min(3,Math.max(0.4,k*(b.dataset.k==='+'?1.15:1/1.15)))}
+        else if(b.dataset.a==='top'){nt.scrollTop=0;pos=0;holdTo=performance.now()+1500}
+        else if(b.dataset.a==='pp'){paused=!paused;pos=nt.scrollTop}
+        save();ui()});
+      nt.addEventListener('click',()=>{if(mode==='off')return;paused=!paused;pos=nt.scrollTop;ui()});
+      const manual=()=>{holdTo=performance.now()+3500;requestAnimationFrame(()=>{pos=nt.scrollTop})};
+      nt.addEventListener('wheel',manual,{passive:true});nt.addEventListener('touchmove',manual,{passive:true});
+      addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;
+        if(e.code==='KeyK'){e.preventDefault();if(mode==='off'){mode='vua'}else paused=!paused;pos=nt.scrollTop;save();ui()}
+        else if(e.code==='BracketRight'){k=Math.min(3,k*1.15);save();ui()}else if(e.code==='BracketLeft'){k=Math.max(0.4,k/1.15);save();ui()}
+        else if(e.code==='Digit0'){mode='off';save();ui()}else if(e.code==='Digit1'){mode='cham';save();ui()}else if(e.code==='Digit2'){mode='vua';save();ui()}else if(e.code==='Digit3'){mode='nhanh';save();ui()}else if(e.code==='Digit4'){mode='giong';calcAuto();save();ui()}});
+      function tick(now){const dt=last?Math.min(.1,(now-last)/1000):0;last=now;
+        if(mode!=='off'&&!paused&&now>holdTo){const m=max();if(pos<m){pos=Math.min(m,pos+speed()*dt);nt.scrollTop=pos}}
+}
+      setInterval(()=>tick(performance.now()),16);addEventListener('resize',calcAuto);ui();
+    })();
+const $=id=>document.getElementById(id);const op=window.opener;let bc=null;try{bc=new BroadcastChannel('hnkh-pv')}catch(_){}
     const send=(c,n)=>{const m={hnkh:'cmd',c,n};if(op&&!op.closed)op.postMessage(m,'*');else if(bc)bc.postMessage(m)};
     const PGL={w1:'Chào mừng',w2:'Người trình bày',w4:'Ba điều mang về',w6:'30 năm BVNT',w7:'Huân chương',w8:'Mục lục · Phần 2',n1:'Vô giá nhất',n2:'Người trụ cột',e1:'Cả thế giới của con',n3:'64,5% bệnh tật',n3b:'28 người/ngày',e2:'Vợ con tôi ra sao?',n3c:'Dựa vào đâu?',b1:'Mình chọn được',p1:'Vai trò BHNT',p2:'Dòng sản phẩm',n4:'An Thịnh Phúc Niên',a1:'Anh A · 500 tr',a2:'Sáu lớp bảo vệ',n5:'R26 · Viện phí',n5c:'Tai nạn · bệnh nặng',n5b:'Bảo vệ sinh mệnh',a3:'Hành trình 20 năm',n7:'Lời hứa đã giữ',e3:'Thương là chuẩn bị',n8:'Hai lựa chọn',e4:'Hợp đồng bị từ chối',w20:'Hôm nay tốt nhất',w22:'Mục lục · Phần 3',w24:'Quà tặng',c1:'Đăng ký 3 bước',g1:'An tâm sau khi ký',g2:'Hỏi đáp · Giao lưu',w21:'Cảm ơn',s1:'Chào mừng',s2:'Người trình bày',s4:'Ba điều mang về',s6:'30 năm BVNT',s7:'Huân chương',s8:'Mục lục · Phần 2',s9:'Cây BHNT',s10:'Dòng sản phẩm',s11:'Anh A · 500 tr',s12:'Thêm lớp bảo vệ',s14:'Khi ốm đau',s15:'Tai nạn · bệnh',s16:'Nếu không may',s17:'Tích luỹ 327 tr',s18:'Tổng kết',s19:'So sánh',s20:'Hôm nay',s21:'Cảm ơn',s22:'Mục lục · Phần 3',s23:'Phần 3 · Quà',s24:'Quà tặng'};
     [...document.querySelectorAll('.slide')].forEach((s,i)=>{const h=s.querySelector('h2,h1');const lb=PGL[s.dataset.sid]||(h?h.textContent.trim().slice(0,22):'Trang '+(i+1));
@@ -4020,7 +4053,7 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
     document.getElementById('pv').addEventListener('dblclick',e=>{if(e.target.closest('button,.pv-split'))return;e.preventDefault();pvFull()});
     let state=null;const ready={cur:false,nxt:false};
     function render(){if(!state)return;const {cur,step,max,total,notes}=state;
-      document.querySelectorAll('.pv-pg').forEach(b=>b.classList.toggle('on',+b.dataset.n===cur));$('pv-cnt').textContent=(cur+1)+' / '+total+(max?'  ·  bước '+step+'/'+max:'');$('pv-notes').textContent=notes||'(Không có ghi chú)';
+      document.querySelectorAll('.pv-pg').forEach(b=>b.classList.toggle('on',+b.dataset.n===cur));$('pv-cnt').textContent=(cur+1)+' / '+total+(max?'  ·  bước '+step+'/'+max:'');(window.__tpSet?window.__tpSet(notes||'(Không có ghi chú)'):($('pv-notes').textContent=notes||'(Không có ghi chú)'));
       if(ready.cur)$('pv-cur').contentWindow.postMessage({hnkh:'show',n:cur,b:step},'*');
       let nn=cur,nb=step+1,end=false;if(step>=max){nn=cur+1;nb=99;if(nn>=total)end=true}
       $('pv-end').hidden=!end;$('pv-nlb').textContent=end?'':(nn===cur?'cùng trang · bước '+nb:'trang '+(nn+1));
