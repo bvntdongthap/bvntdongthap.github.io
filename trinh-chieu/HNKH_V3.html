@@ -4255,7 +4255,7 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
       body.pv-dragging{cursor:col-resize;user-select:none}
       .pv-lb{font-size:14px;font-weight:700;letter-spacing:.14em;color:#93b4ff}.pv-lb span{color:#fff;margin-left:8px;letter-spacing:0}
       .pv-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 0 0 3px #3d86ff}
-      .pv-frame.sm{box-shadow:0 0 0 2px #475569}
+      .pv-frame.sm{box-shadow:0 0 0 2px #475569}.pv-side .pv-frame{width:min(100%,calc(58vh*16/9));align-self:center;flex:none}.pv-split{width:14px}.pv-split span{width:6px}
       .pv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
       #pv-end{position:absolute;inset:0;display:grid;place-items:center;background:#1e293b;color:#94a3b8;font-size:20px}#pv-end[hidden]{display:none}
       .pv-notes{flex:1;min-height:0;overflow:auto;white-space:pre-line;background:#1e293b;border-radius:12px;padding:16px 18px;font-size:22px;line-height:1.5;color:#f1f5f9}
@@ -4270,7 +4270,7 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
     document.head.appendChild(st);
     // resizable split between current slide and next-slide column, remembered
     (function(){const pv=document.getElementById('pv'),sp=document.getElementById('pv-split');const KEY='hnkh-pv-split';
-      const setL=v=>{v=Math.max(30,Math.min(78,v));pv.style.setProperty('--pvL',v+'%');return v};
+      const setL=v=>{v=Math.max(15,Math.min(85,v));pv.style.setProperty('--pvL',v+'%');return v};
       let saved=null;try{saved=parseFloat(localStorage.getItem(KEY))}catch(_){}
       if(saved)setL(saved);
       let dragging=false;
