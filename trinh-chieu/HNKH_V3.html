@@ -3803,17 +3803,21 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
   // 'detect' (mặc định): đọc tên và kích thước màn hình đang chiếu; nhớ lựa chọn theo từng màn hình | '169' | '43' | 'auto' (theo cửa sổ)
   let RATIO='detect';try{RATIO=localStorage.getItem('hnkh-ratio2')||'detect'}catch(_){}
   const RLB={detect:'Tự nhận diện màn hình',169:'Luôn 16:9 (tivi)',43:'Luôn 4:3 (máy chiếu)',auto:'Theo kích thước cửa sổ'};
-  let SCR={label:'',ok:false},SMAP={};try{SMAP=JSON.parse(localStorage.getItem('hnkh-screens')||'{}')}catch(_){}
+  let SCR={label:'',ok:false,all:'',internal:false,n:1},SMAP={};try{SMAP=JSON.parse(localStorage.getItem('hnkh-screens')||'{}')}catch(_){}
   const scrGuess=l=>/epson|projector|proj|\bpj\b|benq|optoma|viewsonic|infocus|máy chiếu/i.test(l)?'43':(/\btv\b|tivi|bravia|samsung|\blg\b|sony|tcl|hisense|xiaomi|casper|sharp|toshiba/i.test(l)?'169':'');
   const scrKey=()=>SCR.label||'?';
+  const extGuess=()=>{if(!SCR.internal)return '';return scrGuess(SCR.all)};   // đang ở màn laptop nhưng có máy chiếu/tivi cắm kèm (phản chiếu)
   function detAr(fs){const real=innerWidth/innerHeight;if(!fs)return real;
+    {const x=extGuess();if(x==='43')return 4/3}       // phản chiếu sang máy chiếu: ưu tiên 4:3 dù màn laptop là 16:10
     if(real<1.7)return real;                       // màn hình tự báo 4:3 hoặc 16:10
     const m=SMAP[scrKey()];if(m)return m==='43'?4/3:16/9;   // đã nhớ cho màn hình này
-    const g=scrGuess(SCR.label);if(g)return g==='43'?4/3:16/9;
+    const g=scrGuess(SCR.label)||extGuess();if(g)return g==='43'?4/3:16/9;
+    if(SCR.internal&&SCR.n===1)return real;        // chỉ có màn hình laptop: theo đúng màn hình
     return SCR.ok?16/9:4/3}                        // không đọc được tên màn hình: giữ mặc định cũ (4:3)
   async function detectScreen(ask){try{if(!('getScreenDetails' in window))return;
       if(!ask){const p=await navigator.permissions.query({name:'window-management'});if(p.state!=='granted')return}
-      const d=await window.getScreenDetails();const upd=()=>{const c=d.currentScreen;SCR={label:(c&&c.label)||'',ok:true};fit()};upd();
+      const d=await window.getScreenDetails();const upd=()=>{const c=d.currentScreen;SCR={label:(c&&c.label)||'',ok:true,all:d.screens.map(x=>x.label||'').join(' | '),internal:!!(c&&c.isInternal),n:d.screens.length};fit()};upd();
+      d.addEventListener('screenschange',upd);
       if(!detectScreen._on){detectScreen._on=true;d.addEventListener('currentscreenchange',upd)}}catch(_){}}
   function sayScreen(){const fs=!!(document.fullscreenElement||document.webkitFullscreenElement);if(!fs||RATIO!=='detect'||typeof toast!=='function')return;
     const r=detAr(true)<1.5?'4:3 (máy chiếu)':(detAr(true)<1.7?'16:10':'16:9 (tivi)');
@@ -3823,6 +3827,9 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
       fit();toast('Đã nhớ cho màn hình'+(SCR.label?' “'+SCR.label+'”':' này')+': '+(nx==='43'?'4:3':'16:9')+' · nhấn T để đổi lại');return}
     const o=['detect','169','43','auto'];RATIO=o[(o.indexOf(RATIO)+1)%o.length];try{localStorage.setItem('hnkh-ratio2',RATIO)}catch(_){}fit();toast('Tỷ lệ khung hình: '+RLB[RATIO]+' (nhấn T để đổi)')}
   detectScreen(false);
+  try{screen.addEventListener&&screen.addEventListener('change',()=>{detectScreen(false);setTimeout(()=>{fit();sayScreen()},300)})}catch(_){}
+  try{['(min-aspect-ratio: 17/10)','(min-aspect-ratio: 3/2)'].forEach(q=>{const mq=matchMedia(q);(mq.addEventListener?mq.addEventListener('change',()=>setTimeout(fit,200)):mq.addListener(()=>setTimeout(fit,200)))})}catch(_){}
+  setInterval(()=>{const k=screen.width+'x'+screen.height;if(k!==detectScreen._k){detectScreen._k=k;detectScreen(false);fit()}},2000);
   addEventListener('keydown',e=>{if(e.code==='KeyF'&&!e.metaKey&&!e.ctrlKey)detectScreen(true)},true);
   addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#fsbtn'))detectScreen(true)},true);
 
