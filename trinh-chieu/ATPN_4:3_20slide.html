@@ -2724,7 +2724,14 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
         if(e.altKey)return;if(e.code==='KeyR'){e.preventDefault();setRun(!run)}else if(e.key==='['){setSpd(spd-1)}else if(e.key===']'){setSpd(spd+1)}});
     })();
     const $=id=>document.getElementById(id);const op=window.opener;let bc=null;try{bc=new BroadcastChannel('hnkh-pv')}catch(_){}
-    const send=(c,n)=>{const m={hnkh:'cmd',c,n};if(op&&!op.closed)op.postMessage(m,'*');else if(bc)bc.postMessage(m)};
+    let LOCAL=false;const SL=[...document.querySelectorAll('.slide')];
+    const mx=i=>Math.max(0,...[...SL[i].querySelectorAll('[data-step]')].map(e=>+e.dataset.step||0));
+    const lstate=(c,s)=>({hnkh:'state',cur:c,step:s,max:mx(c),total:SL.length,sid:SL[c].dataset.sid,notes:SL[c].dataset.notes||''});
+    function local(c,n){let {cur,step}=state||{cur:0,step:0};const T=SL.length;
+      if(c==='next'){if(step<mx(cur))step++;else if(cur<T-1){cur++;step=0}}else if(c==='prev'){if(step>0)step--;else if(cur>0){cur--;step=mx(cur)}}
+      else if(c==='home'){cur=0;step=0}else if(c==='end'){cur=T-1;step=mx(cur)}else if(c==='go'&&n>=0&&n<T){cur=+n;step=0}
+      state=lstate(cur,step);render()}
+    const send=(c,n)=>{if(LOCAL){local(c,n);return}const m={hnkh:'cmd',c,n};if(op&&!op.closed)op.postMessage(m,'*');else if(bc)bc.postMessage(m)};
     const PGL={s1:'Chào mừng',s2:'Người trình bày',s4:'Ba điều mang về',s6:'30 năm BVNT',s7:'Huân chương',s8:'Mục lục · Phần 2',s9:'Cây BHNT',s10:'Dòng sản phẩm',s11:'Anh A · 500 tr',s12:'Thêm lớp bảo vệ',s14:'Khi ốm đau',s15:'Tai nạn · bệnh',s16:'Nếu không may',s17:'Tích luỹ 327 tr',s18:'Tổng kết',s19:'So sánh',s20:'Hôm nay',s21:'Cảm ơn',s22:'Mục lục · Phần 3',s23:'Phần 3 · Quà',s24:'Quà tặng'};
     [...document.querySelectorAll('.slide')].forEach((s,i)=>{const h=s.querySelector('h2,h1');const lb=PGL[s.dataset.sid]||(h?h.textContent.trim().slice(0,22):'Trang '+(i+1));
       const b=document.createElement('button');b.className='pv-pg';b.dataset.n=i;b.innerHTML='<b>'+(i+1)+'</b>'+lb;b.title='Chuyển tới trang '+(i+1);b.onclick=()=>send('go',i);document.getElementById('pv-pages').appendChild(b)});
@@ -2744,10 +2751,10 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
       $('pv-end').hidden=!end;$('pv-nlb').textContent=end?'':(nn===cur?'cùng trang · bước '+nb:'trang '+(nn+1));
       if(ready.nxt&&!end)$('pv-nxt').contentWindow.postMessage({hnkh:'show',n:nn,b:nb},'*')}
     $('pv-cur').onload=()=>{ready.cur=true;render()};$('pv-nxt').onload=()=>{ready.nxt=true;render()};
-    const onState=d=>{if(d&&d.hnkh==='state'){state=d;render()}};
+    const onState=d=>{if(d&&d.hnkh==='state'){LOCAL=false;state=d;render()}};
     addEventListener('message',e=>onState(e.data));if(bc)bc.onmessage=e=>onState(e.data);
     if(op)op.postMessage({hnkh:'hello'},'*');if(bc)bc.postMessage({hnkh:'hello'});
-    setTimeout(()=>{if(!state)$('pv-notes').textContent='Chưa thấy cửa sổ trình chiếu. Hãy mở file trình chiếu rồi nhấn phím P để mở màn hình này.'},2500);
+    setTimeout(()=>{if(!state){LOCAL=true;let n=0;try{n=Math.max(0,(+location.hash.slice(1)||1)-1)}catch(_){}state=lstate(Math.min(n,SL.length-1),0);render()}},1500);
     let t0=Date.now();$('pv-rs').onclick=()=>t0=Date.now();
     const pad=n=>String(n).padStart(2,'0');
     setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);$('pv-el').textContent=pad(Math.floor(s/60))+':'+pad(s%60);const d=new Date();$('pv-clock').textContent=pad(d.getHours())+':'+pad(d.getMinutes())},500);
