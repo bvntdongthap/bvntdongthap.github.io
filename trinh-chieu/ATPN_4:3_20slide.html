@@ -1902,6 +1902,9 @@ html.lite .d75-comet{display:none}
 
 /* trang 1: khẩu hiệu x2 */
 .slide[data-sid="s1"] .cv-slogan{font-size:76px!important;white-space:nowrap;line-height:1.2}
+
+/* chuột tự ẩn */
+html.nocur,html.nocur *{cursor:none!important}
 </style>
 </head>
 <body>
@@ -2545,6 +2548,9 @@ const __SRC='<!doctype html>\n'+document.documentElement.outerHTML;
     else if((C==='KeyT'||K==='t')&&!mod){const o=['fs43','auto','169','43'];RATIO=o[(o.indexOf(RATIO)+1)%o.length];try{localStorage.setItem('hnkh-ratio',RATIO)}catch(_){}fit();toast('Tỷ lệ khung hình: '+RLB[RATIO]+' (nhấn T để đổi)')}
     else if((C==='KeyL'||K==='l')&&!mod){const on=document.documentElement.classList.toggle('lite');try{localStorage.setItem('hnkh-lite',on?'1':'0')}catch(_){}}
   });
+  /* chuột tự ẩn sau 2 giây không di chuyển (không áp dụng khi đang chỉnh sửa, màn thuyết trình) */
+  if(!PRES&&!EMBED){let hT=null;const R=document.documentElement;const wake=()=>{R.classList.remove('nocur');clearTimeout(hT);hT=setTimeout(()=>{if(!R.classList.contains('editing')&&!document.querySelector('#gift-panel.on,#gift-panel[open]'))R.classList.add('nocur')},2000)};
+    ['mousemove','mousedown','wheel'].forEach(ev=>addEventListener(ev,wake,{passive:true}));wake()}
   document.getElementById('next').onclick=next;addEventListener('storage',e=>{if(e.key==='hnkh-notes-lv'&&cur>=0){const s=slides[cur];notesTx.textContent=window.__noteFor(s.dataset.sid,s.dataset.notes)||'(Không có ghi chú)';notes.querySelector('h5').textContent='GHI CHÚ THUYẾT TRÌNH · MỨC '+window.__getLv()+' '+window.__NLVN[window.__getLv()].toUpperCase()}});document.getElementById('prev').onclick=prev;
   let sx=null;addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
   addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)(dx<0?next:prev)();sx=null});
